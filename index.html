@@ -1,0 +1,2081 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Atelier Cognitif 02 · Concentration &amp; Pause</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>deck-stage:not(:defined){visibility:hidden}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-0:#05091a;
+    --navy-1:#0a1230;
+    --navy-2:#0f1c45;
+    --gold-0:#f5d98a;
+    --gold-1:#e6b756;
+    --gold-2:#b88324;
+    --rose:#f29ca0;
+    --sky:#9ec0ff;
+    --green:#8ee0a7;
+    --ink:#f1ecd9;
+    --ink-soft:rgba(241,236,217,.78);
+    --ink-mute:rgba(241,236,217,.5);
+    --line:rgba(245,217,138,.18);
+  }
+  html, body { margin:0; padding:0; background:rgb(45,53,97); color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased; overflow:hidden;}
+
+  #bg-gl { position:fixed; inset:0; width:100%; height:100%; z-index:0; display:block; pointer-events:none; }
+  deck-stage { position:fixed; inset:0; z-index:1; background:transparent !important; }
+  .grain{
+    pointer-events:none;position:fixed;inset:0;z-index:2;opacity:.06;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* ============ Slide base ============ */
+  section.slide{
+    width:1920px; height:1080px; box-sizing:border-box;
+    color:var(--ink); background: transparent; overflow:hidden;
+    font-family:"Inter",Helvetica,Arial,sans-serif; position:relative;
+  }
+
+  .slide-logo{
+    position:absolute; right:64px; bottom:44px;
+    z-index:5; pointer-events:none;
+  }
+  .slide-logo .mark{
+    width:140px; height:140px; border-radius:18px; overflow:hidden;
+    border:1px solid rgba(245,217,138,.32);
+    background: rgba(5,9,26,.65);
+    backdrop-filter: blur(10px);
+    box-shadow:0 8px 28px rgba(0,0,0,.5);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .slide-logo .mark img{ width:84%; height:84%; object-fit:contain; }
+  .slide-tag{
+    position:absolute; left:80px; top:54px;
+    display:flex; align-items:center; gap:14px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:24px; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--ink-mute); z-index:5;
+  }
+  .slide-tag .dot{width:8px;height:8px;border-radius:50%;background:var(--gold-1); box-shadow:0 0 12px var(--gold-1)}
+  .slide-tag b{color:var(--gold-0); font-weight:500}
+  .slide-num{
+    position:absolute; right:80px; top:54px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:24px; letter-spacing:.26em; text-transform:uppercase;
+    color:var(--ink-mute); z-index:5;
+  }
+  .slide-num b{color:var(--gold-0); font-weight:500}
+
+  /* ============ Typography ============ */
+  .eyebrow{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:24px; letter-spacing:.32em; text-transform:uppercase;
+    color:var(--gold-1); margin-bottom:32px;
+  }
+  .h-display{
+    font-family:"Cormorant Garamond","Times New Roman",serif;
+    font-weight:500; color:var(--ink);
+    font-size:148px; line-height:0.96; letter-spacing:-.015em; margin:0;
+    text-wrap:balance;
+  }
+  .h-display i{ font-style:italic; color:var(--gold-0); }
+  .h-1{
+    font-family:"Cormorant Garamond","Times New Roman",serif;
+    font-weight:500; color:var(--ink);
+    font-size:104px; line-height:1; letter-spacing:-.012em; margin:0;
+  }
+  .h-1 i{ font-style:italic; color:var(--gold-0); }
+  .h-2{
+    font-family:"Cormorant Garamond","Times New Roman",serif;
+    font-weight:500; font-size:60px; line-height:1.05; margin:0;
+  }
+  .h-2 i{font-style:italic; color:var(--gold-0)}
+  .lede{
+    font-family:"Inter",sans-serif; font-weight:300; font-size:28px; line-height:1.45;
+    color:var(--ink-soft); max-width:1100px; text-wrap:pretty;
+  }
+  .lede b{ color:var(--gold-0); font-weight:500; }
+  .meta{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:24px; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--ink-mute);
+  }
+
+  /* ============ Layouts ============ */
+  .slide.center{ display:flex; align-items:center; justify-content:center; padding:160px 160px; }
+  .slide.cover{ padding:160px; display:flex; flex-direction:column; justify-content:flex-end; }
+  .slide.left{ padding:140px 160px 200px 160px; display:flex; flex-direction:column; justify-content:center; }
+  .slide.game{ padding:100px 120px 90px 120px; display:flex; flex-direction:column; justify-content:flex-start; gap:12px; }
+  .slide.game .h-game{
+    font-family:"Cormorant Garamond",serif; font-weight:500; color:var(--ink);
+    font-size:78px; line-height:1; letter-spacing:-.012em; margin:0;
+  }
+  .slide.game .h-game i{font-style:italic; color:var(--gold-0)}
+  .slide.game .eyebrow{ margin-bottom:12px; }
+
+  /* ============ Cover ============ */
+  .cover-meta{ display:flex; align-items:center; gap:18px; margin-bottom:46px; }
+  .cover-meta .pill{
+    border:1px solid var(--line); border-radius:999px; padding:12px 26px;
+    font-family:"JetBrains Mono",ui-monospace,monospace; font-size:24px;
+    letter-spacing:.26em; text-transform:uppercase; color:var(--gold-0);
+    background:rgba(5,9,26,.35); backdrop-filter:blur(8px);
+  }
+  .cover-meta .by{ font-family:"Cormorant Garamond",serif; font-style:italic; color:var(--ink-soft); font-size:28px; }
+
+  /* ============ Programme cards ============ */
+  .prog-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:32px; margin-top:60px;
+  }
+  .prog-card{
+    border:1px solid var(--line); border-radius:24px;
+    background:linear-gradient(180deg, rgba(5,9,26,.5), rgba(5,9,26,.25));
+    backdrop-filter:blur(14px); padding:48px 44px; min-height:340px;
+    display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden;
+  }
+  .prog-card .num{
+    font-family:"Cormorant Garamond",serif; font-style:italic;
+    font-size:96px; color:var(--gold-0); line-height:.9; opacity:.95;
+  }
+  .prog-card h3{
+    font-family:"Cormorant Garamond",serif; font-weight:500;
+    font-size:50px; margin:0 0 16px; color:var(--ink); line-height:1;
+  }
+  .prog-card p{
+    font-family:"Inter",sans-serif; font-size:23px; line-height:1.45;
+    color:var(--ink-soft); margin:0;
+  }
+  .prog-card .duration{
+    font-family:"JetBrains Mono",monospace; font-size:24px;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--gold-1);
+    margin-top:30px;
+  }
+
+  /* 6-col programme variant */
+  .prog-grid-6{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:22px; margin-top:50px;
+  }
+  .prog-grid-6 .prog-card{ min-height:230px; padding:34px 32px; }
+  .prog-grid-6 .prog-card .num{ font-size:64px; }
+  .prog-grid-6 .prog-card h3{ font-size:36px; margin-bottom:8px; }
+  .prog-grid-6 .prog-card p{ font-size:20px; }
+  .prog-grid-6 .prog-card .duration{ font-size:20px; margin-top:14px; }
+
+  /* ============ Section dividers ============ */
+  .divider{ display:grid; grid-template-columns: 1fr 2fr; align-items:center; padding:160px; }
+  .divider .num{
+    font-family:"Cormorant Garamond",serif; font-style:italic;
+    font-size:520px; line-height:.85; color:var(--gold-0);
+    letter-spacing:-.04em; text-shadow: 0 0 80px rgba(230,183,86,.25);
+  }
+  .divider .title{
+    font-family:"Cormorant Garamond",serif; font-weight:500;
+    font-size:120px; line-height:1; color:var(--ink); margin:0;
+  }
+  .divider .title i{font-style:italic; color:var(--gold-0)}
+  .divider .sub{
+    font-family:"Inter",sans-serif; font-weight:300; font-size:26px;
+    color:var(--ink-soft); margin-top:28px; max-width:780px; line-height:1.4;
+  }
+
+  /* ============ Présentation perso ============ */
+  .perso-grid{
+    display:grid; grid-template-columns: 540px 1fr; gap:80px; align-items:center; margin-top:50px;
+  }
+  .perso-photo{
+    width:540px; height:680px; border-radius:24px; overflow:hidden;
+    border:1px solid var(--line); background:rgba(5,9,26,.5);
+    backdrop-filter:blur(12px); position:relative;
+  }
+  .perso-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .perso-body h2.h-1{ margin-bottom:18px; }
+  .perso-list{ display:flex; flex-direction:column; gap:22px; margin-top:28px; }
+  .perso-list .row{
+    display:grid; grid-template-columns: 110px 1fr; gap:24px; align-items:start;
+    padding-bottom:22px; border-bottom:1px solid var(--line);
+  }
+  .perso-list .row:last-child{ border-bottom:none; }
+  .perso-list .yr{
+    font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.16em;
+    color:var(--gold-0); padding-top:6px;
+  }
+  .perso-list .desc h4{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:30px;
+    margin:0 0 4px; color:var(--ink); line-height:1.1;
+  }
+  .perso-list .desc h4 i{font-style:italic; color:var(--gold-0)}
+  .perso-list .desc p{
+    font-family:"Inter",sans-serif; font-weight:300; font-size:24px; line-height:1.45;
+    color:var(--ink-soft); margin:0;
+  }
+
+  /* ============ Ivory Consulting ============ */
+  .ivory-stage{
+    display:grid; grid-template-columns: 1.1fr 1fr; gap:80px; align-items:center; margin-top:30px;
+  }
+  .ivory-pillars{ display:grid; grid-template-columns: 1fr 1fr; gap:22px; margin-top:50px; }
+  .ivory-pillar{
+    border:1px solid var(--line); border-radius:20px;
+    background:rgba(5,9,26,.4); backdrop-filter:blur(10px);
+    padding:32px 30px; display:flex; flex-direction:column; gap:10px;
+  }
+  .ivory-pillar .ico{
+    width:54px; height:54px; border-radius:50%;
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+    color:var(--gold-0); margin-bottom:6px;
+  }
+  .ivory-pillar .ico svg{ width:28px; height:28px; }
+  .ivory-pillar h4{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:32px;
+    margin:0; color:var(--ink); line-height:1.05;
+  }
+  .ivory-pillar p{ font-family:"Inter",sans-serif; font-weight:300; font-size:22px; line-height:1.4; color:var(--ink-soft); margin:0; }
+  .ivory-visual{
+    aspect-ratio:1; max-width:560px; border-radius:50%;
+    border:1px solid var(--line);
+    background:radial-gradient(circle at 30% 30%, rgba(245,217,138,.16), transparent 55%),
+               radial-gradient(circle at 70% 70%, rgba(120,170,255,.10), transparent 55%);
+    position:relative; display:flex; align-items:center; justify-content:center;
+  }
+  .ivory-visual .core{
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-size:96px;
+    color:var(--gold-0); text-align:center; line-height:1;
+  }
+  .ivory-visual .core small{
+    display:block; font-family:"JetBrains Mono",monospace; font-style:normal;
+    font-size:18px; letter-spacing:.32em; color:var(--ink-mute);
+    text-transform:uppercase; margin-top:14px;
+  }
+
+  /* ============ Fabrique à Neurones - programme ============ */
+  .fabrique-stage{ margin-top:30px; }
+  .fabrique-list{ display:grid; grid-template-columns: repeat(4, 1fr); gap:18px; }
+  .fab-card{
+    border:1px solid var(--line); border-radius:18px;
+    background:rgba(5,9,26,.5); backdrop-filter:blur(10px);
+    padding:24px 22px; display:flex; flex-direction:column; gap:6px;
+    min-height:200px; position:relative;
+  }
+  .fab-card.active{
+    border-color:var(--gold-0);
+    background:linear-gradient(180deg, rgba(245,217,138,.10), rgba(245,217,138,.02));
+  }
+  .fab-card .num{ font-family:"JetBrains Mono",monospace; font-size:16px; letter-spacing:.32em; color:var(--gold-1); }
+  .fab-card h4{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:22px;
+    margin:6px 0 0; color:var(--ink); line-height:1.1;
+  }
+  .fab-card h4 i{font-style:italic; color:var(--gold-0)}
+  .fab-card p{
+    font-family:"Inter",sans-serif; font-weight:300; font-size:16px; line-height:1.4;
+    color:var(--ink-soft); margin:6px 0 0;
+  }
+  .fab-card .you-are-here{
+    position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+    background:var(--gold-0); color:#1a1108;
+    font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.22em;
+    padding:4px 12px; border-radius:999px; text-transform:uppercase; font-weight:600;
+    white-space:nowrap;
+  }
+
+  /* ============ Objectifs atelier ============ */
+  .obj-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:26px; margin-top:46px; }
+  .obj-card{
+    border:1px solid var(--line); border-radius:22px;
+    background:rgba(5,9,26,.45); backdrop-filter:blur(12px);
+    padding:42px 36px; display:flex; flex-direction:column; gap:18px; min-height:300px;
+  }
+  .obj-card .badge{
+    font-family:"JetBrains Mono",monospace; font-size:20px; letter-spacing:.28em;
+    color:var(--gold-1); text-transform:uppercase;
+  }
+  .obj-card h4{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:38px;
+    margin:0; line-height:1.1; color:var(--ink);
+  }
+  .obj-card h4 i{font-style:italic; color:var(--gold-0)}
+  .obj-card p{ font-family:"Inter",sans-serif; font-weight:300; font-size:21px; line-height:1.4; color:var(--ink-soft); margin:0; }
+
+  /* ============ 3 systèmes d'attention (Posner) ============ */
+  .posner-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:30px; margin-top:50px; }
+  .posner-card{
+    border:1px solid var(--line); border-radius:22px;
+    background:linear-gradient(180deg, rgba(5,9,26,.55), rgba(5,9,26,.25));
+    backdrop-filter:blur(12px); padding:36px 32px;
+    display:flex; flex-direction:column; gap:14px; min-height:480px; position:relative;
+  }
+  .posner-card .head{ display:flex; align-items:center; gap:18px; }
+  .posner-card .pill{
+    font-family:"JetBrains Mono",monospace; font-size:18px; letter-spacing:.26em;
+    color:var(--gold-1); border:1px solid var(--line); border-radius:999px;
+    padding:6px 14px; text-transform:uppercase;
+  }
+  .posner-card h3{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:46px;
+    margin:6px 0 0; line-height:1; color:var(--ink);
+  }
+  .posner-card h3 i{font-style:italic; color:var(--gold-0)}
+  .posner-card .desc{ font-family:"Inter",sans-serif; font-weight:300; font-size:21px; line-height:1.45; color:var(--ink-soft); }
+  .posner-card .ex{
+    font-family:"Inter",sans-serif; font-style:italic; font-size:20px; line-height:1.4;
+    color:var(--ink-mute); padding-top:14px; border-top:1px solid var(--line); margin-top:auto;
+  }
+  .posner-card .ex b{ display:block; font-style:normal; font-family:"JetBrains Mono",monospace; font-size:16px; letter-spacing:.22em; color:var(--gold-1); margin-bottom:6px; }
+  .posner-card .brain{
+    width:120px; height:90px; border-radius:14px; background:rgba(245,217,138,.06);
+    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+  }
+  .posner-card .brain svg{ width:80px; height:60px; }
+
+  /* ============ 3 formes d'attention ============ */
+  .forms-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:30px; margin-top:50px; }
+  .form-card{
+    border:1px solid var(--line); border-radius:22px;
+    background:rgba(5,9,26,.4); backdrop-filter:blur(12px);
+    padding:36px 32px; display:flex; flex-direction:column; gap:14px; min-height:420px;
+    position:relative; overflow:hidden;
+  }
+  .form-card .visual{
+    width:100%; height:140px; margin-bottom:6px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .form-card h3{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:42px;
+    margin:0; color:var(--ink); line-height:1.05;
+  }
+  .form-card h3 i{font-style:italic; color:var(--gold-0)}
+  .form-card .lbl{
+    font-family:"JetBrains Mono",monospace; font-size:18px; letter-spacing:.28em;
+    color:var(--gold-1); text-transform:uppercase;
+  }
+  .form-card p{ font-family:"Inter",sans-serif; font-weight:300; font-size:21px; line-height:1.45; color:var(--ink-soft); margin:0; }
+  .form-card .ex{
+    font-family:"Inter",sans-serif; font-style:italic; font-size:19px; line-height:1.4;
+    color:var(--ink-mute); padding-top:14px; border-top:1px solid var(--line); margin-top:auto;
+  }
+
+  /* ============ Cerveau cartographie ============ */
+  .brain-stage{ display:grid; grid-template-columns: 1.05fr 1fr; gap:80px; align-items:center; margin-top:30px; }
+  .brain-map{ width:100%; max-width:760px; aspect-ratio:1.15; position:relative; }
+  .brain-map svg{ width:100%; height:100%; }
+  .brain-legend{ display:flex; flex-direction:column; gap:22px; }
+  .brain-legend .row{
+    display:grid; grid-template-columns: 56px 1fr; gap:22px; align-items:start;
+    padding:18px 0; border-bottom:1px solid var(--line);
+  }
+  .brain-legend .row:last-child{ border-bottom:none; }
+  .brain-legend .dot{
+    width:28px; height:28px; border-radius:50%; margin-top:6px;
+    box-shadow:0 0 18px currentColor;
+  }
+  .brain-legend h4{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:30px;
+    margin:0 0 4px; color:var(--ink); line-height:1.1;
+  }
+  .brain-legend h4 i{font-style:italic; color:var(--gold-0)}
+  .brain-legend p{ font-family:"Inter",sans-serif; font-weight:300; font-size:20px; line-height:1.4; color:var(--ink-soft); margin:0; }
+
+  /* ============ Two-network duo (orig) ============ */
+  .duo{ display:grid; grid-template-columns: 1fr auto 1fr; align-items:stretch; gap:60px; margin-top:50px; }
+  .duo .vs{
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Cormorant Garamond",serif; font-style:italic;
+    font-size:64px; color:var(--gold-0); width:80px;
+  }
+  .duo-card{
+    border:1px solid var(--line); border-radius:22px;
+    background:rgba(5,9,26,.4); backdrop-filter:blur(12px);
+    padding:48px 46px; display:flex; flex-direction:column; gap:20px;
+  }
+  .duo-card .label{ font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-1); }
+  .duo-card h3{ font-family:"Cormorant Garamond",serif; font-weight:500; font-size:58px; line-height:1; margin:0; color:var(--ink); }
+  .duo-card p{ font-family:"Inter",sans-serif; font-weight:300; font-size:23px; line-height:1.5; color:var(--ink-soft); margin:0; }
+  .duo-card .glyph{ width:100px; height:100px; border-radius:50%; border:1px solid var(--line); display:flex; align-items:center; justify-content:center; }
+
+  /* ============ Switch attentionnel ============ */
+  .switch-stage{ margin-top:60px; display:flex; flex-direction:column; align-items:center; gap:36px; }
+  .switch-anim{
+    width:1100px; height:340px; position:relative;
+    border:1px solid var(--line); border-radius:22px;
+    background:rgba(5,9,26,.45); backdrop-filter:blur(10px); padding:30px;
+  }
+  .switch-track{ position:relative; width:100%; height:100%; }
+  .switch-node{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:220px; padding:24px; border-radius:16px;
+    border:1px solid var(--line); background:rgba(5,9,26,.7);
+    display:flex; flex-direction:column; gap:6px; align-items:center; text-align:center;
+  }
+  .switch-node.left{ left:30px; }
+  .switch-node.right{ right:30px; }
+  .switch-node .lbl{ font-family:"JetBrains Mono",monospace; font-size:20px; letter-spacing:.26em; color:var(--gold-1); text-transform:uppercase; }
+  .switch-node .name{ font-family:"Cormorant Garamond",serif; font-style:italic; font-size:42px; color:var(--ink); line-height:1; }
+  .switch-arc{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:560px; height:200px;
+  }
+  .switch-arc svg{ width:100%; height:100%; }
+  .switch-cost{
+    text-align:center; font-family:"JetBrains Mono",monospace; font-size:24px;
+    letter-spacing:.26em; color:var(--gold-0); text-transform:uppercase;
+  }
+  .switch-cost b{ display:block; font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:500; font-size:54px; letter-spacing:0; color:var(--ink); text-transform:none; margin-top:8px; }
+
+  /* ============ Balance fatigue ============ */
+  .balance-wrap{ margin-top:30px; display:grid; grid-template-columns:1.1fr 1fr; gap:80px; align-items:center; }
+  .balance{ width:100%; max-width:660px; aspect-ratio: 1.55; position:relative; }
+  .balance svg{ width:100%; height:100%; overflow:visible }
+
+  /* ============ Signaux fatigue ============ */
+  .signals-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:22px; margin-top:50px; }
+  .signal-card{
+    border:1px solid var(--line); border-radius:18px;
+    background:rgba(5,9,26,.4); backdrop-filter:blur(10px);
+    padding:30px 26px; display:flex; flex-direction:column; gap:16px; min-height:300px;
+  }
+  .signal-card .ico{
+    width:56px; height:56px; border-radius:14px;
+    background:rgba(245,217,138,.06); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:var(--gold-0);
+  }
+  .signal-card h4{ font-family:"Cormorant Garamond",serif; font-weight:500; font-size:30px; margin:0; line-height:1.1; color:var(--ink); }
+  .signal-card h4 i{font-style:italic; color:var(--gold-0)}
+  .signal-card ul{ margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .signal-card li{
+    font-family:"Inter",sans-serif; font-weight:300; font-size:19px; line-height:1.35; color:var(--ink-soft);
+    padding-left:18px; position:relative;
+  }
+  .signal-card li::before{ content:'·'; position:absolute; left:4px; color:var(--gold-0); font-weight:700; font-size:22px; line-height:1; }
+
+  /* ============ Btn ============ */
+  .btn{
+    appearance:none; border:1px solid var(--line); background:rgba(5,9,26,.7); color:var(--ink);
+    font-family:"Inter",sans-serif; font-size:22px; font-weight:500;
+    padding:16px 28px; border-radius:999px;
+    display:inline-flex; align-items:center; gap:12px; cursor:pointer; transition:all .2s ease;
+    letter-spacing:.02em;
+  }
+  .btn:hover{ background:rgba(245,217,138,.12); border-color:rgba(245,217,138,.45); color:var(--gold-0); }
+  .btn:active{ transform: translateY(1px); }
+  .btn:disabled{ opacity:.6; cursor:default; }
+  .btn.primary{
+    background:linear-gradient(180deg, var(--gold-0), var(--gold-1));
+    color:#1a1108; border-color:transparent; font-weight:600;
+  }
+  .btn.primary:hover{ background:linear-gradient(180deg, #fce5a8, var(--gold-0)); color:#1a1108; }
+  .btn svg{ width:22px; height:22px; }
+
+  /* ============ Stroop ============ */
+  .stroop-stage{
+    margin-top:6px; border:1px solid var(--line); border-radius:24px;
+    background:rgba(5,9,26,.55); backdrop-filter:blur(14px);
+    padding:30px 80px; min-height:360px;
+    display:flex; flex-direction:column; gap:20px; align-items:center; justify-content:center; position:relative;
+  }
+  .stroop-word{
+    font-family:"Inter", sans-serif; font-weight:700; font-size:180px; line-height:1;
+    letter-spacing:-.02em; transition: opacity .12s ease; user-select:none;
+  }
+  .stroop-word.hidden{opacity:.0}
+  .stroop-meta{
+    display:flex; gap:36px; align-items:center;
+    font-family:"JetBrains Mono",monospace; font-size:24px;
+    letter-spacing:.22em; text-transform:uppercase; color:var(--ink-mute);
+  }
+  .stroop-meta .counter{ color:var(--gold-0); font-weight:500; }
+  .stroop-controls{ display:flex; gap:14px; align-items:center; }
+  .game-rule{
+    font-family:"Inter",sans-serif; font-weight:300; font-size:22px; line-height:1.4;
+    color:var(--ink-soft); text-align:center; max-width:1100px; margin:14px auto 0;
+  }
+  .game-rule b{ color:var(--gold-0); font-weight:500; }
+
+  /* ============ Comptage ============ */
+  .count-stage{ margin-top:6px; display:grid; grid-template-columns: 2fr 1fr; gap:40px; align-items:start; }
+  .count-text{
+    border:1px solid var(--line); border-radius:24px;
+    background:rgba(5,9,26,.55); backdrop-filter:blur(14px);
+    padding:36px 48px;
+    font-family:"Cormorant Garamond",serif; font-weight:400;
+    font-size:28px; line-height:1.55; color:var(--ink); text-wrap: pretty;
+  }
+  .count-text .hl-un, .count-text .hl-de{ transition: all .35s ease; border-radius:6px; padding:0 4px; }
+  .count-text.revealed .hl-un{ background: rgba(245,217,138,.22); color:var(--gold-0); font-weight:600; }
+  .count-text.revealed .hl-de{ background: rgba(120,170,255,.15); color:#9ec0ff; font-weight:600; }
+  .count-side{ display:flex; flex-direction:column; gap:20px; }
+  .count-answer{
+    border:1px solid var(--line); border-radius:18px;
+    background:rgba(5,9,26,.55); backdrop-filter:blur(14px);
+    padding:28px 32px; display:flex; flex-direction:column; gap:12px;
+    opacity:0; transform: translateY(8px); transition: all .4s ease; pointer-events:none;
+  }
+  .count-answer.show{ opacity:1; transform: none; }
+  .count-answer .row{ display:flex; align-items:baseline; gap:18px; font-family:"Cormorant Garamond",serif; font-size:48px; }
+  .count-answer .row .n{ color:var(--gold-0); font-weight:600; font-size:64px; line-height:1; min-width:72px; }
+  .count-answer .row .w{ color:var(--ink-soft); font-style:italic; }
+  .count-answer .row.de .n{ color:#9ec0ff; }
+
+  /* ============ Sélective (Gorille) ============ */
+  .selective-stage{ margin-top:6px; display:flex; flex-direction:column; gap:14px; align-items:center; }
+  .selective-canvas-wrap{
+    border:1px solid var(--line); border-radius:18px;
+    background:rgba(5,9,26,.6); backdrop-filter:blur(14px);
+    padding:10px; position:relative;
+    width:100%; max-width:1100px;
+  }
+  #selective-canvas{ display:block; width:100%; height:auto; border-radius:12px; }
+  .selective-hud, .selective-ctrl, .selective-reveal{ width:100%; max-width:1100px; }
+  .selective-hud{
+    display:flex; gap:30px; align-items:center; justify-content:space-between;
+    font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.22em;
+    color:var(--ink-mute); text-transform:uppercase;
+  }
+  .selective-hud b{ color:var(--gold-0); font-weight:500; font-size:24px; }
+  .selective-ctrl{ display:flex; gap:14px; align-items:center; justify-content:center; flex-wrap:wrap; }
+  .selective-reveal{
+    margin-top:0; opacity:0; transition:all .4s ease;
+    border:1px dashed var(--gold-1); border-radius:14px;
+    padding:0 22px; max-height:0; overflow:hidden; border-color:transparent;
+    font-family:"Inter",sans-serif; font-size:18px; color:var(--ink-soft); line-height:1.4;
+    background:rgba(245,217,138,.06);
+    pointer-events:none;
+  }
+  .selective-reveal.show{ opacity:1; padding:12px 22px; max-height:240px; border-color:var(--gold-1); }
+  .selective-reveal b{ color:var(--gold-0); font-weight:600; }
+  .selective-ui-end{
+    display:flex; gap:18px; align-items:center; justify-content:center;
+    opacity:0; transition:opacity .4s ease;
+  }
+  .selective-ui-end.show{ opacity:1; }
+
+  /* ============ Intrus ============ */
+  .intrus-stage{ margin-top:6px; display:flex; flex-direction:column; gap:12px; }
+  .intrus-grid{
+    display:grid; gap:5px;
+    border:1px solid var(--line); border-radius:22px;
+    background:rgba(5,9,26,.6); backdrop-filter:blur(14px);
+    padding:16px; height:460px;
+    grid-auto-rows: 1fr;
+  }
+  .intrus-grid[data-size="big"]{ font-size:46px; }
+  .intrus-grid[data-size="med"]{ font-size:34px; }
+  .intrus-grid[data-size="small"]{ font-size:26px; }
+  .intrus-cell{
+    appearance:none; border:none; background:transparent; color:var(--ink-soft);
+    font-family:"Inter",sans-serif; font-weight:500; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:8px; transition: all .15s ease; line-height:1;
+    min-width:0; min-height:0; padding:0;
+  }
+  .intrus-cell:hover{ background:rgba(245,217,138,.08); color:var(--gold-0); }
+  .intrus-cell.correct{
+    background:rgba(120,255,160,.18); color:var(--green);
+    transform:scale(1.1); box-shadow:0 0 24px rgba(120,255,160,.4);
+  }
+  .intrus-cell.wrong{ background:rgba(255,100,100,.22); color:#ff7676; }
+  .intrus-hud{
+    display:flex; justify-content:space-between; align-items:center; gap:20px;
+    font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.22em;
+    color:var(--ink-mute); text-transform:uppercase;
+  }
+  .intrus-msg{ color:var(--ink-soft); }
+  .intrus-msg.good{ color:var(--green); }
+  .intrus-time b{ color:var(--gold-0); font-weight:500; }
+
+  /* ============ Pauses ============ */
+  .pauses-grid{ display:grid; grid-template-columns: repeat(4, 1fr); gap:24px; margin-top:30px; }
+  .pause-card{
+    border:1px solid var(--line); border-radius:22px;
+    background: linear-gradient(180deg, rgba(5,9,26,.55), rgba(5,9,26,.25));
+    backdrop-filter:blur(12px); padding:40px 32px; min-height:400px;
+    display:flex; flex-direction:column; gap:20px; position:relative; overflow:hidden;
+  }
+  .pause-card .ico{
+    width:84px; height:84px; border-radius:50%;
+    background:rgba(245,217,138,.08); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center; color:var(--gold-0);
+  }
+  .pause-card .ico svg{ width:42px; height:42px; }
+  .pause-card .num{ font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.32em; color:var(--gold-1); }
+  .pause-card h3{ font-family:"Cormorant Garamond",serif; font-weight:500; font-size:38px; line-height:1.02; margin:0; color:var(--ink); }
+  .pause-card p{ font-family:"Inter",sans-serif; font-weight:300; font-size:22px; line-height:1.45; color:var(--ink-soft); margin:0; margin-top:auto; }
+
+  /* DMN slide */
+  .dmn-stage{ display:grid; grid-template-columns: 1fr 1fr; gap:80px; align-items:center; margin-top:40px; }
+  .dmn-visual{
+    width:100%; aspect-ratio:1; max-width:520px; border-radius:50%;
+    border:1px solid var(--line); position:relative;
+    background:radial-gradient(circle at 35% 35%, rgba(245,217,138,.16), transparent 60%);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .dmn-visual svg{ width:80%; height:80%; }
+  .dmn-side .lede{ font-size:30px; }
+
+  /* ============ À retenir ============ */
+  .takeaways{ display:flex; flex-direction:column; gap:24px; margin-top:40px; max-width:1500px; }
+  .takeaway{
+    display:grid; grid-template-columns: 96px 1fr; gap:36px; align-items:start;
+    padding:24px 0; border-top:1px solid var(--line);
+  }
+  .takeaway:last-child{ border-bottom:1px solid var(--line); }
+  .takeaway .n{ font-family:"Cormorant Garamond",serif; font-style:italic; color:var(--gold-0); font-size:88px; line-height:.85; }
+  .takeaway .t{ font-family:"Cormorant Garamond",serif; font-weight:500; font-size:40px; line-height:1.15; color:var(--ink); margin:0 0 6px; }
+  .takeaway .t i{ font-style:italic; color:var(--gold-0); }
+  .takeaway .d{ font-family:"Inter",sans-serif; font-weight:300; font-size:24px; line-height:1.45; color:var(--ink-soft); margin:0; }
+
+  /* ============ Quiz ============ */
+  .quiz-shell{
+    margin-top:14px; border:1px solid var(--line); border-radius:24px;
+    background:rgba(5,9,26,.55); backdrop-filter:blur(14px);
+    padding:36px 56px; min-height:560px;
+    display:flex; flex-direction:column; gap:20px;
+  }
+  .quiz-head{ display:flex; align-items:center; gap:28px; }
+  .quiz-counter{
+    font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.22em;
+    color:var(--ink-mute); text-transform:uppercase; flex-shrink:0;
+  }
+  .quiz-counter b{ color:var(--gold-0); font-weight:500; }
+  .quiz-counter span{ color:var(--ink-mute); }
+  .quiz-progress{ flex:1; height:6px; border-radius:999px; background:rgba(245,217,138,.1); overflow:hidden; }
+  .quiz-bar{ height:100%; background:linear-gradient(90deg, var(--gold-2), var(--gold-0)); transition:width .4s ease; }
+  .quiz-q{
+    font-family:"Cormorant Garamond",serif; font-weight:500; font-size:46px; line-height:1.15;
+    margin:6px 0 8px; color:var(--ink); text-wrap:balance;
+  }
+  .quiz-choices{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .quiz-choice{
+    appearance:none; cursor:pointer; text-align:left;
+    border:1px solid var(--line); background:rgba(5,9,26,.5);
+    border-radius:14px; padding:20px 22px; display:flex; align-items:center; gap:18px;
+    color:var(--ink); font-family:"Inter",sans-serif; font-size:22px; font-weight:400;
+    transition: all .18s ease; line-height:1.35;
+  }
+  .quiz-choice:hover:not(.disabled){
+    background:rgba(245,217,138,.10); border-color:rgba(245,217,138,.4);
+    transform: translateY(-1px);
+  }
+  .quiz-choice .quiz-letter{
+    flex-shrink:0; width:36px; height:36px; border-radius:10px;
+    background:rgba(245,217,138,.08); color:var(--gold-0);
+    font-family:"JetBrains Mono",monospace; font-size:18px; font-weight:600;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .quiz-choice .quiz-text{ flex:1; }
+  .quiz-choice .quiz-mark{
+    flex-shrink:0; width:24px; height:24px; border-radius:50%;
+    border:1px solid var(--line);
+  }
+  .quiz-choice.disabled{ cursor:default; }
+  .quiz-choice.good{
+    background:rgba(140,220,170,.14); border-color:var(--green); color:var(--ink);
+  }
+  .quiz-choice.good .quiz-letter{ background:var(--green); color:#0c1a14; }
+  .quiz-choice.good .quiz-mark{ border-color:var(--green); background:var(--green); position:relative; }
+  .quiz-choice.good .quiz-mark::after{
+    content:''; position:absolute; left:7px; top:3px;
+    width:7px; height:13px; border:solid #0c1a14; border-width:0 2px 2px 0; transform:rotate(45deg);
+  }
+  .quiz-choice.bad{ background:rgba(255,120,120,.14); border-color:#ff7676; }
+  .quiz-choice.bad .quiz-letter{ background:#ff7676; color:#2a0c0c; }
+  .quiz-choice.bad .quiz-mark{ border-color:#ff7676; background:#ff7676; position:relative; }
+  .quiz-choice.bad .quiz-mark::before, .quiz-choice.bad .quiz-mark::after{
+    content:''; position:absolute; width:12px; height:2px; background:#2a0c0c;
+    left:5px; top:10px;
+  }
+  .quiz-choice.bad .quiz-mark::before{ transform:rotate(45deg); }
+  .quiz-choice.bad .quiz-mark::after{ transform:rotate(-45deg); }
+  .quiz-explain{
+    border-radius:14px; padding:0 22px; max-height:0; overflow:hidden;
+    transition: all .35s ease;
+  }
+  .quiz-explain.show{ max-height:300px; padding:18px 22px; margin-top:4px; }
+  .quiz-explain.good{ background:rgba(140,220,170,.10); border:1px solid rgba(140,220,170,.4); }
+  .quiz-explain.bad{ background:rgba(255,120,120,.10); border:1px solid rgba(255,120,120,.4); }
+  .quiz-explain .quiz-explain-tag{
+    font-family:"JetBrains Mono",monospace; font-size:18px; letter-spacing:.26em;
+    text-transform:uppercase; margin-bottom:8px;
+  }
+  .quiz-explain.good .quiz-explain-tag{ color:var(--green); }
+  .quiz-explain.bad .quiz-explain-tag{ color:#ff8d8d; }
+  .quiz-explain p{ font-family:"Inter",sans-serif; font-weight:300; font-size:20px; line-height:1.45; color:var(--ink-soft); margin:0; }
+  .quiz-actions{ display:flex; justify-content:flex-end; margin-top:auto; }
+  .quiz-actions .btn:disabled{ opacity:.4; }
+  .quiz-final{
+    text-align:center; padding:30px 20px; display:flex; flex-direction:column; gap:20px; align-items:center; justify-content:center; height:100%;
+  }
+  .quiz-final .quiz-eyebrow{
+    font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.32em;
+    text-transform:uppercase; color:var(--gold-1);
+  }
+  .quiz-score{ font-family:"Cormorant Garamond",serif; font-weight:500; line-height:1; }
+  .quiz-score-n{ font-size:200px; color:var(--gold-0); font-style:italic; }
+  .quiz-score-tot{ font-size:90px; color:var(--ink-mute); }
+  .quiz-pct{ font-family:"JetBrains Mono",monospace; font-size:32px; letter-spacing:.22em; color:var(--ink-soft); }
+  .quiz-verdict{ font-family:"Cormorant Garamond",serif; font-style:italic; font-size:46px; color:var(--ink); }
+  .quiz-final-actions{ margin-top:24px; }
+
+  /* contact card on Merci slide */
+  .contact-card{
+    margin-top:18px; display:flex; align-items:center; gap:34px;
+    border:1px solid var(--line); border-radius:22px;
+    background:rgba(5,9,26,.55); backdrop-filter:blur(12px);
+    padding:28px 50px;
+  }
+  .contact-card .contact-sep{ width:1px; height:60px; background:var(--line); }
+  .contact-item{ display:flex; align-items:center; gap:18px; }
+  .contact-ico{
+    width:54px; height:54px; border-radius:14px;
+    border:1px solid var(--line); background:rgba(245,217,138,.06);
+    display:flex; align-items:center; justify-content:center; color:var(--gold-0);
+    flex-shrink:0;
+  }
+  .contact-ico svg{ width:26px; height:26px; }
+  .contact-body{ text-align:left; }
+  .contact-lbl{
+    font-family:"JetBrains Mono",monospace; font-size:18px; letter-spacing:.28em;
+    color:var(--ink-mute); text-transform:uppercase;
+  }
+  .contact-val{
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:500;
+    font-size:30px; color:var(--gold-0); margin-top:4px;
+  }
+  .thanks{ display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:28px; text-align:center; }
+  .contact-row{
+    display:flex; gap:60px; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono",monospace; font-size:24px; letter-spacing:.22em;
+    color:var(--ink-soft); text-transform:uppercase; margin-top:30px;
+  }
+  .contact-row span b{ display:block; font-family:"Cormorant Garamond",serif; font-weight:500; font-size:28px; letter-spacing:.04em; color:var(--gold-0); text-transform:none; margin-top:6px; font-style:italic;}
+
+  /* questions slide */
+  .qmarks{ position:relative; height:520px; margin:50px auto 0; max-width:1300px; }
+  .qmarks span{
+    position:absolute; font-family:"Cormorant Garamond",serif; font-style:italic;
+    color:var(--gold-0); user-select:none; pointer-events:none;
+  }
+
+</style>
+</head>
+<body>
+
+<canvas id="bg-gl"></canvas>
+<div class="grain"></div>
+
+<script>
+  // shader background config — slide → shader + dim (Aurora partout, dim ajusté)
+  window.SHADER_SLIDE_MAP = [
+    { shader:'aurora', dim:0.85 }, // 01 cover
+    { shader:'aurora', dim:0.55 }, // 02 perso
+    { shader:'aurora', dim:0.55 }, // 03 ivory
+    { shader:'aurora', dim:0.55 }, // 04 fabrique
+    { shader:'aurora', dim:0.55 }, // 05 atelier objectifs
+    { shader:'aurora', dim:0.55 }, // 06 programme
+    { shader:'aurora', dim:0.85 }, // 07 SECTION 01
+    { shader:'aurora', dim:0.55 }, // 08 attention def
+    { shader:'aurora', dim:0.55 }, // 09 3 systèmes Posner
+    { shader:'aurora', dim:0.55 }, // 10 3 formes attention
+    { shader:'aurora', dim:0.85 }, // 11 SECTION 02
+    { shader:'aurora', dim:0.55 }, // 12 brain map
+    { shader:'aurora', dim:0.55 }, // 13 deux réseaux
+    { shader:'aurora', dim:0.55 }, // 14 switch
+    { shader:'aurora', dim:0.85 }, // 15 SECTION 03
+    { shader:'aurora', dim:0.55 }, // 16 balance
+    { shader:'aurora', dim:0.55 }, // 17 signaux
+    { shader:'aurora', dim:0.85 }, // 18 SECTION 04 jeux
+    { shader:'aurora', dim:0.40 }, // 19 stroop
+    { shader:'aurora', dim:0.40 }, // 20 sélective
+    { shader:'aurora', dim:0.40 }, // 21 comptage
+    { shader:'aurora', dim:0.40 }, // 22 intrus
+    { shader:'aurora', dim:0.55 }, // 23 synthèse jeux
+    { shader:'aurora', dim:0.85 }, // 24 SECTION 05 pauses
+    { shader:'aurora', dim:0.55 }, // 25 pourquoi
+    { shader:'aurora', dim:0.55 }, // 26 DMN
+    { shader:'aurora', dim:0.55 }, // 27 4 pauses
+    { shader:'aurora', dim:0.55 }, // 28 pas le tel
+    { shader:'aurora', dim:0.85 }, // 29 SECTION 06 synthèse
+    { shader:'aurora', dim:0.55 }, // 30 à retenir
+    { shader:'aurora', dim:0.40 }, // 31 quiz
+    { shader:'aurora', dim:0.65 }, // 32 questions
+    { shader:'aurora', dim:0.85 }, // 33 merci
+  ];
+</script>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ====== 01 — COVER ====== -->
+  <section class="slide cover" data-label="Cover">
+    <div class="slide-tag"><span class="dot"></span>Atelier Cognitif <b>02</b> · La Fabrique à Neurones</div>
+    <div class="slide-num"><b>01</b> / 33</div>
+    <div class="cover-meta">
+      <span class="pill">AC · 02</span>
+      <span class="by">animé par&nbsp;— Guéhi N'Adje</span>
+    </div>
+    <h1 class="h-display">Concentration<br><i>&amp; Pause.</i></h1>
+    <p class="lede" style="margin-top:42px; max-width:1200px">
+      Comprendre comment notre cerveau fait — ou ne fait pas — pour rester attentif.
+      Et pourquoi <b>la pause</b> n'est pas une perte de temps.
+    </p>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 02 — PRÉSENTATION PERSO ====== -->
+  <section class="slide left" data-label="Présentation perso">
+    <div class="slide-tag"><span class="dot"></span>Présentation</div>
+    <div class="slide-num"><b>02</b> / 33</div>
+    <div class="eyebrow">Avant de commencer</div>
+    <h2 class="h-1">Qui vous <i>parle</i><br>aujourd'hui.</h2>
+    <div class="perso-grid">
+      <div class="perso-photo">
+        <img src="assets/photo-perso.png" alt="Guéhi N'Adje">
+      </div>
+      <div class="perso-body">
+        <p class="lede" style="font-size:24px; max-width:780px">
+          Un parcours entre <b>sciences cognitives</b>, accompagnement d'équipes
+          et conseil en performance humaine. La conviction qui me guide&nbsp;:
+          <b>on ne change pas durablement</b> ce que l'on ne comprend pas.
+        </p>
+        <div class="perso-list">
+          <div class="row">
+            <div class="yr">Parcours</div>
+            <div class="desc">
+              <h4>Formation initiale <i>en sciences humaines</i></h4>
+              <p>Formation universitaire — psychologie, sciences cognitives ou équivalent. À adapter.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="yr">Métier</div>
+            <div class="desc">
+              <h4>Consultant <i>Ivory Consulting</i></h4>
+              <p>Accompagnement en transformation, performance et bien-être au travail. Animation d'ateliers cognitifs en entreprise.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="yr">Mission</div>
+            <div class="desc">
+              <h4>Rendre la <i>science accessible</i></h4>
+              <p>Traduire les recherches en neurosciences en outils concrets que chacun peut appliquer dès le lendemain.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 03 — IVORY CONSULTING ====== -->
+  <section class="slide left" data-label="Ivory Consulting">
+    <div class="slide-tag"><span class="dot"></span>Présentation</div>
+    <div class="slide-num"><b>03</b> / 33</div>
+    <div class="ivory-stage">
+      <div>
+        <div class="eyebrow">Le cabinet qui m'accueille</div>
+        <h2 class="h-1"><i>Ivory</i><br>Consulting.</h2>
+        <p class="lede" style="margin-top:28px; font-size:24px; max-width:680px">
+          Un cabinet de conseil qui met les <b>sciences cognitives</b> au service
+          de la performance humaine en entreprise — de la transformation à
+          l'accompagnement individuel.
+        </p>
+        <div class="ivory-pillars">
+          <div class="ivory-pillar">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4-8 4-8-4 8-4z"/><path d="M4 11l8 4 8-4"/><path d="M4 15l8 4 8-4"/></svg></div>
+            <h4>Conseil stratégique</h4>
+            <p>Diagnostic, transformation et conduite du changement.</p>
+          </div>
+          <div class="ivory-pillar">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg></div>
+            <h4>Coaching d'équipes</h4>
+            <p>Cohésion, prise de parole, dynamiques collectives.</p>
+          </div>
+          <div class="ivory-pillar">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+            <h4>Ateliers cognitifs</h4>
+            <p>La Fabrique à Neurones — comprendre pour mieux travailler.</p>
+          </div>
+          <div class="ivory-pillar">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div>
+            <h4>Performance durable</h4>
+            <p>Concilier exigence, santé mentale et long terme.</p>
+          </div>
+        </div>
+      </div>
+      <div class="ivory-visual">
+        <div class="core">Ivory<small>Consulting</small></div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 04 — LA FABRIQUE À NEURONES ====== -->
+  <section class="slide left" data-label="La Fabrique a Neurones">
+    <div class="slide-tag"><span class="dot"></span>Le programme</div>
+    <div class="slide-num"><b>04</b> / 33</div>
+    <div class="eyebrow">Le programme</div>
+    <h2 class="h-1" style="font-size:88px">La Fabrique à <i>Neurones</i>.</h2>
+    <p class="lede" style="margin-top:24px; max-width:1300px">
+      Huit ateliers cognitifs d'une heure — un par grand thème — pour comprendre
+      comment notre cerveau travaille, et <b>en faire un meilleur allié</b> au quotidien.
+    </p>
+    <div class="fabrique-stage">
+      <div class="fabrique-list">
+        <div class="fab-card">
+          <div class="num">AC · 01</div>
+          <h4>Mémoire <i>&amp; apprentissage</i></h4>
+          <p>Comment on retient — et comment on oublie.</p>
+        </div>
+        <div class="fab-card active">
+          <div class="you-are-here">Aujourd'hui</div>
+          <div class="num">AC · 02</div>
+          <h4>Concentration <i>&amp; pause</i></h4>
+          <p>Les limites de l'attention, et les pauses qui rechargent.</p>
+        </div>
+        <div class="fab-card">
+          <div class="num">AC · 03</div>
+          <h4>Stress <i>&amp; émotions</i></h4>
+          <p>Comprendre ce qui se joue sous la surface.</p>
+        </div>
+        <div class="fab-card">
+          <div class="num">AC · 04</div>
+          <h4>Décision <i>&amp; biais</i></h4>
+          <p>Les raccourcis du cerveau, et comment les déjouer.</p>
+        </div>
+        <div class="fab-card">
+          <div class="num">AC · 05</div>
+          <h4>Créativité <i>&amp; idées</i></h4>
+          <p>D'où viennent les idées — et comment les déclencher.</p>
+        </div>
+        <div class="fab-card">
+          <div class="num">AC · 06</div>
+          <h4>Sommeil <i>&amp; énergie</i></h4>
+          <p>Récupérer vraiment, pour tenir la durée.</p>
+        </div>
+        <div class="fab-card">
+          <div class="num">AC · 07</div>
+          <h4>Communication <i>&amp; relations</i></h4>
+          <p>Le cerveau social : écouter, convaincre, désamorcer.</p>
+        </div>
+        <div class="fab-card">
+          <div class="num">AC · 08</div>
+          <h4>Motivation <i>&amp; engagement</i></h4>
+          <p>Ce qui nous met en mouvement — et ce qui nous bloque.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 05 — OBJECTIFS DE L'ATELIER ====== -->
+  <section class="slide left" data-label="Objectifs">
+    <div class="slide-tag"><span class="dot"></span>Atelier <b>02</b> · Objectifs</div>
+    <div class="slide-num"><b>05</b> / 33</div>
+    <div class="eyebrow">Notre atelier — objectifs</div>
+    <h2 class="h-1">Trois <i>promesses</i><br>pour la prochaine heure.</h2>
+    <div class="obj-grid">
+      <div class="obj-card">
+        <div class="badge">Objectif 01</div>
+        <h4>Comprendre <i>scientifiquement</i></h4>
+        <p>Comment le cerveau gère l'attention, la concentration et la fatigue cognitive — en s'appuyant sur les neurosciences.</p>
+      </div>
+      <div class="obj-card">
+        <div class="badge">Objectif 02</div>
+        <h4>Expérimenter <i>en direct</i></h4>
+        <p>Tester par soi-même les limites de son attention, à travers quatre petits jeux interactifs en collectif.</p>
+      </div>
+      <div class="obj-card">
+        <div class="badge">Objectif 03</div>
+        <h4>Repartir avec <i>des outils</i></h4>
+        <p>Quatre types de pauses concrètes — validées par la recherche — applicables dès demain, au bureau comme à la maison.</p>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 06 — PROGRAMME ====== -->
+  <section class="slide left" data-label="Programme">
+    <div class="slide-tag"><span class="dot"></span>Atelier <b>02</b> · Programme</div>
+    <div class="slide-num"><b>06</b> / 33</div>
+    <div class="eyebrow">Au programme</div>
+    <h2 class="h-1">Six <i>temps</i>,<br>une heure ensemble.</h2>
+    <div class="prog-grid-6">
+      <div class="prog-card">
+        <div><div class="num">01</div><h3>Processus attentionnels</h3><p>Les 3 systèmes et 3 formes d'attention.</p></div>
+        <div class="duration">~ 8 min</div>
+      </div>
+      <div class="prog-card">
+        <div><div class="num">02</div><h3>Réseaux cérébraux</h3><p>Comment le cerveau s'organise pour se concentrer.</p></div>
+        <div class="duration">~ 8 min</div>
+      </div>
+      <div class="prog-card">
+        <div><div class="num">03</div><h3>Fatigue cognitive</h3><p>Le coût caché de l'attention.</p></div>
+        <div class="duration">~ 6 min</div>
+      </div>
+      <div class="prog-card">
+        <div><div class="num">04</div><h3>Jeux &amp; expériences</h3><p>Quatre tests, en direct, à voix haute.</p></div>
+        <div class="duration">~ 20 min</div>
+      </div>
+      <div class="prog-card">
+        <div><div class="num">05</div><h3>Les pauses qui rechargent</h3><p>Quand, comment, pourquoi.</p></div>
+        <div class="duration">~ 10 min</div>
+      </div>
+      <div class="prog-card">
+        <div><div class="num">06</div><h3>Quiz &amp; synthèse</h3><p>On valide ensemble — et on échange.</p></div>
+        <div class="duration">~ 8 min</div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 07 — SECTION 01 ====== -->
+  <section class="slide divider" data-label="Section 01">
+    <div class="slide-tag"><span class="dot"></span>Module <b>01</b></div>
+    <div class="slide-num"><b>07</b> / 33</div>
+    <div class="num">01</div>
+    <div>
+      <div class="eyebrow">Module 01</div>
+      <h2 class="title">Les processus<br><i>attentionnels</i>.</h2>
+      <p class="sub">Avant de parler de "concentration", il faut comprendre que
+        l'attention n'est <b>pas une seule chose</b> — c'est une famille de processus.</p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 08 — QU'EST-CE QUE L'ATTENTION ====== -->
+  <section class="slide center" data-label="Definition attention">
+    <div class="slide-tag"><span class="dot"></span>Module <b>01</b> · Définir</div>
+    <div class="slide-num"><b>08</b> / 33</div>
+    <div style="text-align:center; max-width:1500px; margin:auto">
+      <div class="eyebrow" style="text-align:center">Posons le mot</div>
+      <h2 class="h-display" style="font-size:110px">
+        L'attention,<br>c'est <i>choisir</i> —<br>et <i>tenir</i> ce choix.
+      </h2>
+      <p class="lede" style="margin:46px auto 0; font-size:30px; text-align:center; max-width:1300px">
+        À chaque seconde, votre cerveau reçoit des millions d'informations.
+        Il en sélectionne <b>quelques-unes</b>, ignore le reste — et maintient le focus
+        sur ce qui compte. <b>C'est ça, faire attention.</b>
+      </p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 09 — 3 SYSTÈMES (POSNER) ====== -->
+  <section class="slide left" data-label="3 systemes attention">
+    <div class="slide-tag"><span class="dot"></span>Module <b>01</b> · Les systèmes</div>
+    <div class="slide-num"><b>09</b> / 33</div>
+    <div class="eyebrow">Le modèle de Posner</div>
+    <h2 class="h-1">Trois <i>systèmes</i><br>pour une attention.</h2>
+    <div class="posner-grid">
+      <div class="posner-card">
+        <div class="head">
+          <span class="pill">01 · Alerte</span>
+          <div class="brain">
+            <!-- brainstem highlight -->
+            <svg viewBox="0 0 80 60" fill="none">
+              <ellipse cx="40" cy="30" rx="34" ry="22" stroke="rgba(245,217,138,.4)" stroke-width="1.4"/>
+              <ellipse cx="40" cy="44" rx="8" ry="5" fill="rgba(245,217,138,.6)"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Être <i>prêt</i>.</h3>
+        <p class="desc">Le système d'alerte maintient le cerveau dans un état de veille active. Sans lui, on glisse vers la somnolence.</p>
+        <div class="ex"><b>Exemple</b>Au moment du café du matin, on se "réveille" mentalement — le système d'alerte monte en puissance.</div>
+      </div>
+      <div class="posner-card">
+        <div class="head">
+          <span class="pill">02 · Orientation</span>
+          <div class="brain">
+            <!-- parietal highlight -->
+            <svg viewBox="0 0 80 60" fill="none">
+              <ellipse cx="40" cy="30" rx="34" ry="22" stroke="rgba(245,217,138,.4)" stroke-width="1.4"/>
+              <path d="M20 24 Q40 14 60 24" fill="rgba(245,217,138,.55)"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Diriger le <i>projecteur</i>.</h3>
+        <p class="desc">Le système d'orientation place le faisceau attentionnel sur un objet précis — un son, un visage, une ligne d'un mail.</p>
+        <div class="ex"><b>Exemple</b>Quelqu'un prononce votre prénom à l'autre bout de la pièce. Votre attention se braque dessus, sans effort.</div>
+      </div>
+      <div class="posner-card">
+        <div class="head">
+          <span class="pill">03 · Contrôle</span>
+          <div class="brain">
+            <!-- prefrontal highlight -->
+            <svg viewBox="0 0 80 60" fill="none">
+              <ellipse cx="40" cy="30" rx="34" ry="22" stroke="rgba(245,217,138,.4)" stroke-width="1.4"/>
+              <ellipse cx="22" cy="28" rx="10" ry="14" fill="rgba(245,217,138,.6)"/>
+            </svg>
+          </div>
+        </div>
+        <h3>Tenir, <i>malgré</i>.</h3>
+        <p class="desc">Le contrôle exécutif — cortex préfrontal — maintient le focus malgré les distractions, les pensées parasites, la fatigue.</p>
+        <div class="ex"><b>Exemple</b>Rédiger une note de synthèse en open-space, alors que trois conversations vous parviennent.</div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 10 — 3 FORMES D'ATTENTION ====== -->
+  <section class="slide left" data-label="3 formes attention">
+    <div class="slide-tag"><span class="dot"></span>Module <b>01</b> · Les formes</div>
+    <div class="slide-num"><b>10</b> / 33</div>
+    <div class="eyebrow">Au quotidien</div>
+    <h2 class="h-1">Trois <i>façons</i><br>de faire attention.</h2>
+    <div class="forms-grid">
+      <div class="form-card">
+        <div class="visual">
+          <svg width="160" height="100" viewBox="0 0 160 100" fill="none">
+            <circle cx="40" cy="50" r="6" fill="rgba(241,236,217,.3)"/>
+            <circle cx="60" cy="32" r="6" fill="rgba(241,236,217,.3)"/>
+            <circle cx="80" cy="50" r="10" fill="#f5d98a"/>
+            <circle cx="100" cy="32" r="6" fill="rgba(241,236,217,.3)"/>
+            <circle cx="120" cy="50" r="6" fill="rgba(241,236,217,.3)"/>
+            <circle cx="70" cy="70" r="6" fill="rgba(241,236,217,.3)"/>
+            <circle cx="90" cy="70" r="6" fill="rgba(241,236,217,.3)"/>
+            <circle cx="80" cy="50" r="20" stroke="#f5d98a" stroke-width="1.5" stroke-dasharray="3 3" fill="none"/>
+          </svg>
+        </div>
+        <div class="lbl">Forme 01</div>
+        <h3>Sélective.</h3>
+        <p>Faire le tri. Choisir UNE source d'information et <b style="color:var(--gold-0)">ignorer activement</b> les autres.</p>
+        <div class="ex">Lire dans un train bondé. Écouter un seul ami dans un dîner bruyant.</div>
+      </div>
+      <div class="form-card">
+        <div class="visual">
+          <svg width="200" height="100" viewBox="0 0 200 100" fill="none">
+            <path d="M10 80 Q60 80 80 50 T 130 50 T 190 50" stroke="#f5d98a" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M10 80 Q60 80 80 70 T 130 80 T 190 75" stroke="rgba(241,236,217,.3)" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="2 4"/>
+            <circle cx="190" cy="50" r="6" fill="#f5d98a"/>
+          </svg>
+        </div>
+        <div class="lbl">Forme 02</div>
+        <h3>Soutenue.</h3>
+        <p>Tenir <b style="color:var(--gold-0)">dans le temps</b>. Maintenir le focus sur une tâche, plusieurs minutes ou heures.</p>
+        <div class="ex">Conduire sur autoroute. Surveiller un graphique. Écrire un long document.</div>
+      </div>
+      <div class="form-card">
+        <div class="visual">
+          <svg width="200" height="100" viewBox="0 0 200 100" fill="none">
+            <circle cx="50" cy="50" r="20" stroke="#f5d98a" stroke-width="2" fill="none"/>
+            <circle cx="100" cy="50" r="20" stroke="#9ec0ff" stroke-width="2" fill="none"/>
+            <circle cx="150" cy="50" r="20" stroke="#f29ca0" stroke-width="2" fill="none"/>
+            <circle cx="50" cy="50" r="4" fill="#f5d98a"/>
+            <circle cx="100" cy="50" r="4" fill="#9ec0ff"/>
+            <circle cx="150" cy="50" r="4" fill="#f29ca0"/>
+          </svg>
+        </div>
+        <div class="lbl">Forme 03</div>
+        <h3>Divisée.</h3>
+        <p>Faire <b style="color:var(--gold-0)">plusieurs choses</b> en alternance. Spoiler : ce n'est jamais du vrai parallèle.</p>
+        <div class="ex">Cuisiner en téléphonant. "Multi-tâche" en réunion. Le mythe le plus tenace.</div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 11 — SECTION 02 ====== -->
+  <section class="slide divider" data-label="Section 02">
+    <div class="slide-tag"><span class="dot"></span>Module <b>02</b></div>
+    <div class="slide-num"><b>11</b> / 33</div>
+    <div class="num">02</div>
+    <div>
+      <div class="eyebrow">Module 02</div>
+      <h2 class="title">Les réseaux<br>du <i>cerveau</i>.</h2>
+      <p class="sub">Sous le capot — quelles zones, quels réseaux, et pourquoi
+        <b>concentration et vigilance ne s'allument jamais ensemble</b>.</p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 12 — CARTOGRAPHIE CÉRÉBRALE ====== -->
+  <section class="slide left" data-label="Cartographie cerebrale">
+    <div class="slide-tag"><span class="dot"></span>Module <b>02</b> · Cartographie</div>
+    <div class="slide-num"><b>12</b> / 33</div>
+    <div class="eyebrow">Petite anatomie</div>
+    <h2 class="h-1">Quatre zones<br>pour <i>l'attention</i>.</h2>
+    <div class="brain-stage">
+      <div class="brain-map">
+        <svg viewBox="0 0 720 580" fill="none">
+          <defs>
+            <radialGradient id="bg-prefrontal" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f5d98a" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#f5d98a" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="bg-parietal" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#9ec0ff" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#9ec0ff" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="bg-cingulate" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#f29ca0" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#f29ca0" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="bg-brainstem" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#8ee0a7" stop-opacity="0.85"/>
+              <stop offset="100%" stop-color="#8ee0a7" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- brain silhouette (profile, facing right) -->
+          <g stroke="rgba(245,217,138,.45)" stroke-width="2" fill="rgba(5,9,26,.4)" stroke-linejoin="round">
+            <path d="M620 220
+                     Q640 180 600 150
+                     Q580 120 530 110
+                     Q480 90 420 100
+                     Q350 105 290 130
+                     Q220 160 180 220
+                     Q140 280 160 340
+                     Q175 400 230 430
+                     Q260 445 270 470
+                     L290 470
+                     L290 500
+                     L370 500
+                     L370 470
+                     Q380 460 400 460
+                     Q450 460 480 440
+                     Q540 415 580 360
+                     Q620 300 620 220 Z"/>
+            <!-- gyrus lines -->
+            <path d="M260 165 Q310 150 370 165 M260 200 Q320 185 390 200 M210 250 Q260 240 320 255 M210 295 Q260 290 320 305" stroke-width="1" stroke="rgba(245,217,138,.22)" fill="none"/>
+            <!-- cerebellum -->
+            <ellipse cx="285" cy="445" rx="55" ry="32" stroke="rgba(245,217,138,.35)" fill="rgba(5,9,26,.4)"/>
+            <path d="M250 445 Q285 425 320 445 M250 455 Q285 460 320 455" stroke-width="1" stroke="rgba(245,217,138,.22)" fill="none"/>
+            <!-- brainstem -->
+            <path d="M295 475 Q300 510 295 540 Q302 555 320 555 Q335 552 332 535 Q335 510 330 480" fill="rgba(5,9,26,.5)" stroke="rgba(245,217,138,.4)"/>
+          </g>
+
+          <!-- highlighted region: prefrontal cortex (gold) -->
+          <circle cx="540" cy="200" r="70" fill="url(#bg-prefrontal)"/>
+          <circle cx="540" cy="200" r="14" fill="#f5d98a"/>
+          <text x="600" y="180" fill="#f5d98a" font-family="JetBrains Mono" font-size="22" letter-spacing="3" font-weight="600">CORTEX</text>
+          <text x="600" y="205" fill="#f5d98a" font-family="JetBrains Mono" font-size="22" letter-spacing="3">PRÉFRONTAL</text>
+          <text x="600" y="232" fill="rgba(241,236,217,.55)" font-family="Inter" font-size="20" font-style="italic">contrôle exécutif</text>
+
+          <!-- parietal (blue) -->
+          <circle cx="420" cy="170" r="60" fill="url(#bg-parietal)"/>
+          <circle cx="420" cy="170" r="12" fill="#9ec0ff"/>
+          <text x="350" y="100" fill="#9ec0ff" font-family="JetBrains Mono" font-size="22" letter-spacing="3" font-weight="600">CORTEX</text>
+          <text x="350" y="125" fill="#9ec0ff" font-family="JetBrains Mono" font-size="22" letter-spacing="3">PARIÉTAL</text>
+          <text x="350" y="152" fill="rgba(241,236,217,.55)" font-family="Inter" font-size="20" font-style="italic">orientation spatiale</text>
+
+          <!-- cingulate (rose) -->
+          <circle cx="380" cy="270" r="55" fill="url(#bg-cingulate)"/>
+          <circle cx="380" cy="270" r="11" fill="#f29ca0"/>
+          <text x="110" y="305" fill="#f29ca0" font-family="JetBrains Mono" font-size="22" letter-spacing="3" font-weight="600">CINGULAIRE</text>
+          <text x="110" y="330" fill="#f29ca0" font-family="JetBrains Mono" font-size="22" letter-spacing="3">ANTÉRIEUR</text>
+          <text x="110" y="357" fill="rgba(241,236,217,.55)" font-family="Inter" font-size="20" font-style="italic">détection des conflits</text>
+          <line x1="220" y1="290" x2="335" y2="280" stroke="rgba(242,156,160,.4)" stroke-width="1" stroke-dasharray="3 3"/>
+
+          <!-- brainstem (green) -->
+          <circle cx="312" cy="525" r="50" fill="url(#bg-brainstem)"/>
+          <circle cx="312" cy="525" r="10" fill="#8ee0a7"/>
+          <text x="380" y="510" fill="#8ee0a7" font-family="JetBrains Mono" font-size="22" letter-spacing="3" font-weight="600">TRONC</text>
+          <text x="380" y="535" fill="#8ee0a7" font-family="JetBrains Mono" font-size="22" letter-spacing="3">CÉRÉBRAL</text>
+          <text x="380" y="562" fill="rgba(241,236,217,.55)" font-family="Inter" font-size="20" font-style="italic">vigilance, alerte</text>
+        </svg>
+      </div>
+      <div class="brain-legend">
+        <div class="row">
+          <div class="dot" style="background:#f5d98a; color:#f5d98a"></div>
+          <div>
+            <h4>Cortex <i>préfrontal</i></h4>
+            <p>Le chef d'orchestre. Décide où placer l'attention, inhibe les distractions, planifie l'action.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="dot" style="background:#9ec0ff; color:#9ec0ff"></div>
+          <div>
+            <h4>Cortex <i>pariétal</i></h4>
+            <p>Le projecteur. Oriente l'attention dans l'espace — vers un visage, une zone d'écran, un son.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="dot" style="background:#f29ca0; color:#f29ca0"></div>
+          <div>
+            <h4>Cingulaire <i>antérieur</i></h4>
+            <p>Le détecteur d'erreurs. S'active quand on se trompe ou qu'il faut faire un effort supplémentaire.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="dot" style="background:#8ee0a7; color:#8ee0a7"></div>
+          <div>
+            <h4>Tronc <i>cérébral</i></h4>
+            <p>Le système d'alerte. Maintient l'éveil, prépare le cerveau à réagir vite si l'environnement bouge.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 13 — DEUX RÉSEAUX ====== -->
+  <section class="slide left" data-label="Deux reseaux">
+    <div class="slide-tag"><span class="dot"></span>Module <b>02</b> · La compétition</div>
+    <div class="slide-num"><b>13</b> / 33</div>
+    <div class="eyebrow">Compétition cérébrale</div>
+    <h2 class="h-1">Deux réseaux,<br>une <i>compétition</i>.</h2>
+    <div class="duo">
+      <div class="duo-card">
+        <div class="label">Réseau 01</div>
+        <div class="glyph">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#f5d98a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>
+          </svg>
+        </div>
+        <h3>Vigilance.</h3>
+        <p>Le cerveau scrute l'environnement, prêt à réagir au moindre <b style="color:var(--gold-0)">danger ou imprévu</b>.
+          C'est l'héritage de nos ancêtres — et c'est utile.</p>
+      </div>
+      <div class="vs">⟷</div>
+      <div class="duo-card">
+        <div class="label">Réseau 02</div>
+        <div class="glyph">
+          <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#f5d98a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8"/>
+            <circle cx="12" cy="12" r="3" fill="#f5d98a"/>
+          </svg>
+        </div>
+        <h3>Concentration.</h3>
+        <p>Toute mon attention est dirigée vers <b style="color:var(--gold-0)">une seule action</b>.
+          Lire, écrire, calculer, créer. Indispensable, mais coûteuse.</p>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 14 — SWITCH ATTENTIONNEL ====== -->
+  <section class="slide left" data-label="Switch attentionnel">
+    <div class="slide-tag"><span class="dot"></span>Module <b>02</b> · Le coût du switch</div>
+    <div class="slide-num"><b>14</b> / 33</div>
+    <div class="eyebrow">Le mythe du multitâche</div>
+    <h2 class="h-1">On ne fait pas<br>deux choses <i>en même temps</i>.</h2>
+    <div class="switch-stage">
+      <div class="switch-anim">
+        <div class="switch-track">
+          <div class="switch-node left">
+            <div class="lbl">Tâche A</div>
+            <div class="name">Mail</div>
+          </div>
+          <div class="switch-arc">
+            <svg viewBox="0 0 560 200" fill="none">
+              <path d="M40 160 Q280 -40 520 160" stroke="#f5d98a" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 8"/>
+              <path d="M40 160 Q280 -40 520 160" stroke="#f5d98a" stroke-width="0" fill="none">
+                <animate attributeName="stroke-dashoffset" from="0" to="-200" dur="4s" repeatCount="indefinite"/>
+              </path>
+              <circle r="10" fill="#f5d98a">
+                <animateMotion dur="3.5s" repeatCount="indefinite" path="M40 160 Q280 -40 520 160"/>
+              </circle>
+            </svg>
+          </div>
+          <div class="switch-node right">
+            <div class="lbl">Tâche B</div>
+            <div class="name">Réunion</div>
+          </div>
+        </div>
+      </div>
+      <div class="switch-cost">
+        Coût du switch attentionnel
+        <b>+&nbsp;jusqu'à 40 % de temps perdu</b>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 15 — SECTION 03 ====== -->
+  <section class="slide divider" data-label="Section 03">
+    <div class="slide-tag"><span class="dot"></span>Module <b>03</b></div>
+    <div class="slide-num"><b>15</b> / 33</div>
+    <div class="num">03</div>
+    <div>
+      <div class="eyebrow">Module 03</div>
+      <h2 class="title">Conséquences<br><i>physiologiques</i>.</h2>
+      <p class="sub">Tenir l'attention coûte. Et ce coût se voit dans le corps —
+        avant même qu'on en soit conscient.</p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 16 — BALANCE FATIGUE ====== -->
+  <section class="slide left" data-label="Balance fatigue" data-game="balance" data-game-slide="15">
+    <div class="slide-tag"><span class="dot"></span>Module <b>03</b> · Le coût caché</div>
+    <div class="slide-num"><b>16</b> / 33</div>
+    <div class="eyebrow">Le coût caché de l'attention</div>
+    <h2 class="h-1">Plus l'effort dure,<br>plus la <i>balance</i> bascule.</h2>
+    <div class="balance-wrap">
+      <div class="balance">
+        <svg viewBox="0 0 700 500" id="balance-svg">
+          <line x1="350" y1="120" x2="350" y2="430" stroke="rgba(245,217,138,.35)" stroke-width="2" stroke-dasharray="2 6"/>
+          <circle cx="350" cy="430" r="10" fill="#f5d98a"/>
+          <g id="beam" transform="rotate(0 350 130)">
+            <line x1="60" y1="130" x2="640" y2="130" stroke="#f5d98a" stroke-width="3" stroke-linecap="round"/>
+            <g>
+              <line x1="120" y1="130" x2="120" y2="180" stroke="rgba(245,217,138,.5)" stroke-width="2"/>
+              <ellipse cx="120" cy="190" rx="80" ry="14" fill="rgba(245,217,138,.18)" stroke="#f5d98a" stroke-width="2"/>
+              <text x="120" y="240" text-anchor="middle" fill="#f5d98a" font-family="JetBrains Mono" font-size="26" letter-spacing="3">EFFORT</text>
+              <text x="120" y="274" text-anchor="middle" fill="rgba(241,236,217,.6)" font-family="Inter" font-size="26">de concentration</text>
+            </g>
+            <g>
+              <line x1="580" y1="130" x2="580" y2="180" stroke="rgba(158,192,255,.5)" stroke-width="2"/>
+              <ellipse cx="580" cy="190" rx="100" ry="14" fill="rgba(158,192,255,.12)" stroke="#9ec0ff" stroke-width="2"/>
+              <text x="580" y="240" text-anchor="middle" fill="#9ec0ff" font-family="JetBrains Mono" font-size="26" letter-spacing="3">FATIGUE</text>
+              <text x="580" y="274" text-anchor="middle" fill="rgba(241,236,217,.6)" font-family="Inter" font-size="26">+ surcharge</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <p class="lede" style="font-size:26px">
+          Tenir un haut niveau d'attention <b>puise dans nos ressources</b>
+          — glucose, neurotransmetteurs, oxygène.
+          La fatigue n'est pas un manque de volonté&nbsp;: c'est un
+          <b>signal physiologique</b>.
+        </p>
+        <p class="meta" style="margin-top:24px; font-size:20px">
+          → on relit la même phrase, on s'agace, on fait des erreurs bêtes
+        </p>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 17 — SIGNAUX DE FATIGUE ====== -->
+  <section class="slide left" data-label="Signaux fatigue">
+    <div class="slide-tag"><span class="dot"></span>Module <b>03</b> · Reconnaître</div>
+    <div class="slide-num"><b>17</b> / 33</div>
+    <div class="eyebrow">Quatre familles de signaux</div>
+    <h2 class="h-1">Reconnaître la <i>fatigue</i>,<br>avant qu'elle ne décide.</h2>
+    <div class="signals-grid">
+      <div class="signal-card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9 10h.01M15 10h.01M9 16h6"/></svg></div>
+        <h4>Signaux <i>cognitifs</i></h4>
+        <ul>
+          <li>Relire trois fois la même phrase</li>
+          <li>Oublier ce qu'on allait dire</li>
+          <li>Confusion sur les noms, les chiffres</li>
+          <li>Perte du fil dans une conversation</li>
+        </ul>
+      </div>
+      <div class="signal-card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3 6 6 .5-4.5 4 1.5 6L12 16l-6 3.5 1.5-6L3 9.5 9 9l3-6z"/></svg></div>
+        <h4>Signaux <i>émotionnels</i></h4>
+        <ul>
+          <li>Irritabilité pour un rien</li>
+          <li>Sensation d'être débordé</li>
+          <li>Difficulté à décider</li>
+          <li>Envie soudaine de tout fuir</li>
+        </ul>
+      </div>
+      <div class="signal-card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V8M5 16l7 5 7-5M5 8l7 5 7-5"/></svg></div>
+        <h4>Signaux <i>physiques</i></h4>
+        <ul>
+          <li>Bâillements répétés</li>
+          <li>Yeux qui piquent, vision floue</li>
+          <li>Tensions cou, épaules, mâchoire</li>
+          <li>Mal de tête en fin de journée</li>
+        </ul>
+      </div>
+      <div class="signal-card">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg></div>
+        <h4>Signaux <i>comportementaux</i></h4>
+        <ul>
+          <li>Se mettre à scroller son téléphone</li>
+          <li>Grignotage compulsif (sucre)</li>
+          <li>Procrastination soudaine</li>
+          <li>Erreurs bêtes répétées</li>
+        </ul>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 18 — SECTION 04 ====== -->
+  <section class="slide divider" data-label="Section 04">
+    <div class="slide-tag"><span class="dot"></span>Module <b>04</b></div>
+    <div class="slide-num"><b>18</b> / 33</div>
+    <div class="num">04</div>
+    <div>
+      <div class="eyebrow">Module 04</div>
+      <h2 class="title">Jeux<br><i>&amp; expériences</i>.</h2>
+      <p class="sub">Quatre tests, quelques minutes — pour SENTIR ce qu'on vient
+        de comprendre. À jouer en collectif, à voix haute.</p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 19 — JEU 1 STROOP ====== -->
+  <section class="slide game" data-label="Jeu 01 Stroop" data-game="stroop" data-game-slide="18">
+    <div class="slide-tag"><span class="dot"></span>Module <b>04</b> · Jeu 01</div>
+    <div class="slide-num"><b>19</b> / 33</div>
+    <div class="eyebrow">Jeu 01 — L'effet Stroop (1935)</div>
+    <h2 class="h-game">Dites la <i>couleur</i>. Pas le mot.</h2>
+    <p class="game-rule" style="font-size:20px; margin:0">
+      Quand un mot s'affiche, dites <b>à voix haute</b> la <b>couleur de l'encre</b> — pas le mot lui-même. Si "ROUGE" apparaît en vert, vous dites "<b>vert</b>".
+    </p>
+    <div class="stroop-stage" id="stroop-stage">
+      <div class="stroop-word" id="stroop-word" style="color:#f5d98a">PRÊT&nbsp;?</div>
+      <div class="stroop-meta">
+        <span>séquence&nbsp;: <span class="counter" id="stroop-counter">— / 14</span></span>
+        <span>·</span>
+        <span>cadence&nbsp;: <span style="color:var(--gold-0)">1,4&nbsp;s</span></span>
+      </div>
+      <div class="stroop-controls">
+        <button class="btn primary" id="stroop-start" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Démarrer
+        </button>
+        <button class="btn" id="stroop-reset" type="button">Recommencer</button>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 20 — JEU 2 SÉLECTIVE ====== -->
+  <section class="slide game" data-label="Jeu 02 Selective" data-game="selective" data-game-slide="19">
+    <div class="slide-tag"><span class="dot"></span>Module <b>04</b> · Jeu 02</div>
+    <div class="slide-num"><b>20</b> / 33</div>
+    <div class="eyebrow">Jeu 02 — Attention sélective</div>
+    <h2 class="h-game">Comptez les <i>rebonds</i> des balles dorées.</h2>
+    <p class="game-rule" style="font-size:20px; margin:0">
+      Pendant 18 secondes, comptez les fois où une <b>balle dorée touche un bord</b>. Restez concentrés. Ne vous laissez pas distraire.
+    </p>
+    <div class="selective-stage">
+      <div class="selective-canvas-wrap">
+        <canvas id="selective-canvas"></canvas>
+      </div>
+      <div class="selective-hud">
+        <span>temps restant&nbsp;: <b id="selective-time">18,0 s</b></span>
+        <span>rebonds détectés&nbsp;: <b id="selective-passes">0</b></span>
+      </div>
+      <div class="selective-ctrl">
+        <button class="btn primary" id="selective-start" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Démarrer
+        </button>
+        <button class="btn" id="selective-reset" type="button">Recommencer</button>
+        <button class="btn" id="selective-reveal-btn" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 110-8 4 4 0 010 8z"/></svg>
+          Avez-vous vu l'intrus ?
+        </button>
+      </div>
+      <div class="selective-reveal" id="selective-reveal">
+        Pendant que vous comptiez, <b>un carré bleu</b> a traversé la scène. L'avez-vous vu&nbsp;? Beaucoup <b>ne le voient pas</b>&nbsp;: c'est la <b>cécité d'inattention</b>. Quand le cerveau se concentre sur une tâche, il rend littéralement invisible ce qui n'en fait pas partie.
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 21 — JEU 3 COMPTAGE ====== -->
+  <section class="slide game" data-label="Jeu 03 Comptage" data-game="comptage" data-game-slide="20">
+    <div class="slide-tag"><span class="dot"></span>Module <b>04</b> · Jeu 03</div>
+    <div class="slide-num"><b>21</b> / 33</div>
+    <div class="eyebrow">Jeu 03 — Comptage simultané</div>
+    <h2 class="h-game">Comptez les <i>«&nbsp;un&nbsp;»</i> et les <i>«&nbsp;de&nbsp;»</i>.</h2>
+    <div class="count-stage">
+      <div class="count-text" id="count-text">
+        <span class="hl-un">Un</span> matin, dans <span class="hl-un">un</span> jardin tranquille,
+        <span class="hl-de">de</span>ux enfants attendaient
+        <span class="hl-un">un</span> visiteur surprise.
+        Le facteur arriva avec <span class="hl-un">un</span> paquet
+        <span class="hl-de">de</span> couleur dorée, posé sur
+        <span class="hl-un">un</span> coussin <span class="hl-de">de</span> velours.
+        Personne ne savait s'il s'agissait d'<span class="hl-un">un</span>
+        cadeau ou simplement d'<span class="hl-un">un</span> indice à suivre.
+      </div>
+      <div class="count-side">
+        <button class="btn primary" id="count-reveal" type="button" style="align-self:flex-start">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 11a4 4 0 110-8 4 4 0 010 8z"/></svg>
+          Révéler la réponse
+        </button>
+        <div class="count-answer" id="count-answer">
+          <div class="row"><span class="n">7</span><span class="w">fois «&nbsp;un&nbsp;»</span></div>
+          <div class="row de"><span class="n">3</span><span class="w">fois «&nbsp;de&nbsp;»</span></div>
+          <div class="meta" style="margin-top:4px;line-height:1.5; font-size:20px">
+            le piège&nbsp;: tenir deux comptages<br>tout en suivant le sens.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 22 — JEU 4 INTRUS ====== -->
+  <section class="slide game" data-label="Jeu 04 Intrus" data-game="intrus" data-game-slide="21">
+    <div class="slide-tag"><span class="dot"></span>Module <b>04</b> · Jeu 04</div>
+    <div class="slide-num"><b>22</b> / 33</div>
+    <div class="eyebrow">Jeu 04 — Trouvez l'intrus</div>
+    <h2 class="h-game">Le symbole qui <i>n'est pas comme les autres</i>.</h2>
+    <div class="intrus-stage">
+      <div class="intrus-hud">
+        <span class="intrus-msg" id="intrus-msg">Trouvez le symbole différent dans la grille.</span>
+        <span class="intrus-time">temps&nbsp;: <b id="intrus-time">0,0 s</b></span>
+      </div>
+      <div class="intrus-grid" id="intrus-grid"></div>
+      <div class="selective-ctrl">
+        <button class="btn primary" id="intrus-next" type="button">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 12h12l-4-4 1.4-1.4L21 13l-6.6 6.4L13 18l4-4H5z"/></svg>
+          Round suivant
+        </button>
+        <button class="btn" id="intrus-reset" type="button">Recommencer</button>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 23 — SYNTHÈSE DES JEUX ====== -->
+  <section class="slide left" data-label="Synthese jeux">
+    <div class="slide-tag"><span class="dot"></span>Module <b>04</b> · Ce que les jeux montrent</div>
+    <div class="slide-num"><b>23</b> / 33</div>
+    <div class="eyebrow">Ce que les jeux ont révélé</div>
+    <h2 class="h-1">Quatre <i>leçons</i><br>d'attention.</h2>
+    <div class="takeaways">
+      <div class="takeaway">
+        <div class="n">01</div>
+        <div>
+          <h3 class="t">Stroop · Lire est un <i>automatisme</i> qu'on doit inhiber.</h3>
+          <p class="d">L'attention sélective coûte de l'énergie chaque fois qu'on doit aller à l'encontre d'un réflexe.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="n">02</div>
+        <div>
+          <h3 class="t">Gorille · Se concentrer, c'est <i>devenir aveugle</i> au reste.</h3>
+          <p class="d">La cécité d'inattention. On ne voit littéralement pas ce qui ne fait pas partie de notre cible.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="n">03</div>
+        <div>
+          <h3 class="t">Comptage · On ne fait pas <i>deux choses</i> à la fois.</h3>
+          <p class="d">Suivre le sens d'un texte ET compter deux mots : le cerveau bascule, et lâche quelque chose.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="n">04</div>
+        <div>
+          <h3 class="t">Intrus · L'attention <i>fatigue</i> vite.</h3>
+          <p class="d">Plus la grille est dense, plus le temps explose. La vigilance n'est pas une ressource infinie.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 24 — SECTION 05 ====== -->
+  <section class="slide divider" data-label="Section 05">
+    <div class="slide-tag"><span class="dot"></span>Module <b>05</b></div>
+    <div class="slide-num"><b>24</b> / 33</div>
+    <div class="num">05</div>
+    <div>
+      <div class="eyebrow">Module 05</div>
+      <h2 class="title">Recharger<br>l'<i>attention</i>.</h2>
+      <p class="sub">La pause comme outil, pas comme récompense — et surtout,
+        des pauses qui rechargent <b>vraiment</b>.</p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 25 — POURQUOI LES PAUSES ====== -->
+  <section class="slide center" data-label="Pourquoi pauses">
+    <div class="slide-tag"><span class="dot"></span>Module <b>05</b> · Récupérer</div>
+    <div class="slide-num"><b>25</b> / 33</div>
+    <div style="text-align:center; max-width:1500px; margin:auto">
+      <div class="eyebrow" style="text-align:center">Idée reçue à dépoussiérer</div>
+      <h2 class="h-display" style="font-size:108px">
+        Le cerveau ne se recharge pas<br>
+        en <i>restant immobile</i>.
+      </h2>
+      <p class="lede" style="margin:50px auto 0; font-size:30px; text-align:center">
+        Il recharge en <b>changeant de mode</b> — du focus vers le
+        repos actif, où la mémoire se consolide et où les idées émergent.
+      </p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 26 — DMN ====== -->
+  <section class="slide left" data-label="Mode par defaut">
+    <div class="slide-tag"><span class="dot"></span>Module <b>05</b> · Le mode par défaut</div>
+    <div class="slide-num"><b>26</b> / 33</div>
+    <div class="eyebrow">Default Mode Network</div>
+    <h2 class="h-1">Le réseau<br>du <i>vagabondage</i>.</h2>
+    <div class="dmn-stage">
+      <div class="dmn-visual">
+        <svg viewBox="0 0 100 100" fill="none">
+          <!-- 5 nodes connected -->
+          <line x1="20" y1="30" x2="80" y2="30" stroke="rgba(245,217,138,.4)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="20" y1="30" x2="50" y2="70" stroke="rgba(245,217,138,.4)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="80" y1="30" x2="50" y2="70" stroke="rgba(245,217,138,.4)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="20" y1="30" x2="35" y2="55" stroke="rgba(245,217,138,.4)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="80" y1="30" x2="65" y2="55" stroke="rgba(245,217,138,.4)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <line x1="35" y1="55" x2="65" y2="55" stroke="rgba(245,217,138,.4)" stroke-width="0.8" stroke-dasharray="2 2"/>
+          <circle cx="20" cy="30" r="6" fill="#f5d98a">
+            <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="80" cy="30" r="6" fill="#f5d98a">
+            <animate attributeName="opacity" values="1;0.4;1" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="35" cy="55" r="6" fill="#f5d98a">
+            <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="65" cy="55" r="6" fill="#f5d98a">
+            <animate attributeName="opacity" values="1;0.4;1" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="50" cy="70" r="6" fill="#f5d98a">
+            <animate attributeName="opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+      <div class="dmn-side">
+        <p class="lede">
+          Quand on arrête de se concentrer, un <b>autre réseau s'allume</b> : le mode par défaut.
+          C'est lui qui rêvasse, fait des associations libres, consolide la mémoire — et trouve les solutions
+          aux problèmes qu'on a remués toute la matinée.
+        </p>
+        <p class="meta" style="margin-top:30px; font-size:20px">
+          → la douche, la marche, la vaisselle : ces moments-là <b style="color:var(--gold-0)">font le vrai travail</b>
+        </p>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 27 — 4 PAUSES ====== -->
+  <section class="slide left" data-label="4 pauses">
+    <div class="slide-tag"><span class="dot"></span>Module <b>05</b> · Pratique</div>
+    <div class="slide-num"><b>27</b> / 33</div>
+    <div class="eyebrow">Validées par la recherche</div>
+    <h2 class="h-1">Quatre pauses qui<br><i>rechargent</i> vraiment.</h2>
+    <div class="pauses-grid">
+      <div class="pause-card">
+        <div class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v6M9 6l3-3 3 3M5 14a7 7 0 0014 0"/><circle cx="12" cy="14" r="1.4" fill="currentColor"/></svg>
+        </div>
+        <div class="num">01</div>
+        <h3>S'étirer · bâiller</h3>
+        <p>Remet du sang et de l'oxygène dans le cerveau, relâche les tensions de posture.</p>
+      </div>
+      <div class="pause-card">
+        <div class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M9 22l2-9 3 3 4 2M11 13l-3-3-2 4"/></svg>
+        </div>
+        <div class="num">02</div>
+        <h3>Marcher quelques minutes</h3>
+        <p>Bouger réactive le réseau attentionnel. Même 3&nbsp;minutes suffisent.</p>
+      </div>
+      <div class="pause-card">
+        <div class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 4v16M18 4v16M6 12h12"/><circle cx="9" cy="8" r="1.4" fill="currentColor"/><circle cx="15" cy="16" r="1.4" fill="currentColor"/></svg>
+        </div>
+        <div class="num">03</div>
+        <h3>Respirer en conscience</h3>
+        <p>4 secondes inspiration, 6 secondes expiration. Trois cycles suffisent à baisser la pression.</p>
+      </div>
+      <div class="pause-card">
+        <div class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h11M4 7l4-4M4 7l4 4M20 17H9M20 17l-4-4M20 17l-4 4"/></svg>
+        </div>
+        <div class="num">04</div>
+        <h3>Changer d'activité</h3>
+        <p>Idéalement manuelle ou sensorielle. <b style="color:var(--gold-0)">Pas le téléphone.</b></p>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 28 — PAS LE TÉLÉPHONE ====== -->
+  <section class="slide center" data-label="Pas le telephone">
+    <div class="slide-tag"><span class="dot"></span>Module <b>05</b> · Attention au piège</div>
+    <div class="slide-num"><b>28</b> / 33</div>
+    <div style="text-align:center; max-width:1500px; margin:auto">
+      <div class="eyebrow" style="text-align:center">Le faux ami</div>
+      <h2 class="h-display" style="font-size:120px">
+        Le téléphone<br>n'est <i>pas</i> une pause.
+      </h2>
+      <p class="lede" style="margin:46px auto 0; font-size:30px; text-align:center; max-width:1400px">
+        Scroller un fil d'actualité, c'est <b>un autre type de concentration</b> —
+        avec en bonus du stress, des comparaisons sociales et des décisions
+        toutes les deux secondes. Le cerveau ne récupère pas. Au contraire.
+      </p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 29 — SECTION 06 ====== -->
+  <section class="slide divider" data-label="Section 06">
+    <div class="slide-tag"><span class="dot"></span>Module <b>06</b></div>
+    <div class="slide-num"><b>29</b> / 33</div>
+    <div class="num">06</div>
+    <div>
+      <div class="eyebrow">Module 06</div>
+      <h2 class="title">Synthèse<br><i>&amp; quiz</i>.</h2>
+      <p class="sub">On vérifie ensemble ce qui est resté — et on
+        identifie ce qu'il reste à creuser.</p>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 30 — À RETENIR ====== -->
+  <section class="slide left" data-label="A retenir">
+    <div class="slide-tag"><span class="dot"></span>À retenir</div>
+    <div class="slide-num"><b>30</b> / 33</div>
+    <div class="eyebrow">Synthèse</div>
+    <h2 class="h-1">Trois <i>choses</i><br>à retenir.</h2>
+    <div class="takeaways">
+      <div class="takeaway">
+        <div class="n">01</div>
+        <div>
+          <h3 class="t">Concentration <i>et</i> vigilance sont en compétition.</h3>
+          <p class="d">On ne peut pas faire les deux à la fois — l'une éteint l'autre.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="n">02</div>
+        <div>
+          <h3 class="t">L'attention <i>coûte</i> de l'énergie.</h3>
+          <p class="d">Cette énergie n'est pas infinie. La fatigue est un signal, pas un défaut.</p>
+        </div>
+      </div>
+      <div class="takeaway">
+        <div class="n">03</div>
+        <div>
+          <h3 class="t">La pause active n'est pas une <i>perte</i> de temps.</h3>
+          <p class="d">C'est ce qui permet de tenir la durée — et d'arriver au bout en bon état.</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 31 — QUIZ INTERACTIF ====== -->
+  <section class="slide game" data-label="Quiz" data-game="quiz" data-game-slide="30">
+    <div class="slide-tag"><span class="dot"></span>Module <b>06</b> · Quiz</div>
+    <div class="slide-num"><b>31</b> / 33</div>
+    <div class="eyebrow">Récap interactif</div>
+    <h2 class="h-game">Petit <i>quiz</i> pour conclure.</h2>
+    <div class="quiz-shell" id="quiz-stage"></div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 32 — QUESTIONS ====== -->
+  <section class="slide center" data-label="Questions">
+    <div class="slide-tag"><span class="dot"></span>Échanges</div>
+    <div class="slide-num"><b>32</b> / 33</div>
+    <div style="text-align:center; max-width:1500px; margin:auto; position:relative">
+      <div class="eyebrow" style="text-align:center">À vous</div>
+      <h2 class="h-display" style="font-size:170px">
+        Vos <i>questions</i>.
+      </h2>
+      <p class="lede" style="margin:46px auto 0; font-size:30px; text-align:center; max-width:1100px">
+        Une remarque, un désaccord, une expérience à partager —
+        <b>c'est souvent ici que la vraie discussion commence</b>.
+      </p>
+      <div class="qmarks">
+        <span style="font-size:280px; left:-20px; top:0; opacity:.08;">?</span>
+        <span style="font-size:160px; right:40px; top:60px; opacity:.10;">?</span>
+        <span style="font-size:200px; left:35%; top:160px; opacity:.06;">?</span>
+        <span style="font-size:120px; right:25%; top:280px; opacity:.12;">?</span>
+        <span style="font-size:90px; left:18%; top:340px; opacity:.10;">?</span>
+      </div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+  <!-- ====== 33 — MERCI ====== -->
+  <section class="slide" data-label="Merci">
+    <div class="slide-tag"><span class="dot"></span>Atelier Cognitif <b>02</b></div>
+    <div class="slide-num"><b>33</b> / 33</div>
+      <div class="thanks">
+      <div class="eyebrow">Fin de l'atelier</div>
+      <h2 class="h-display" style="font-size:180px">Merci<i>.</i></h2>
+      <p class="lede" style="font-size:28px; max-width:1000px; text-align:center">
+        Une question, un retour, une envie d'aller plus loin&nbsp;? Parlons-en.
+        Et n'oubliez pas&nbsp;: cette semaine, <b>une pause active de 5 minutes par jour</b>, sans téléphone.
+      </p>
+      <div class="contact-card">
+        <div class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </div>
+          <div class="contact-body">
+            <div class="contact-lbl">Contact</div>
+            <div class="contact-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9beacbcb1b0b7b8bdb3bc99b0afb6aba0bab6b7aaacb5adb0b7bef7bfab">[email&#160;protected]</a></div>
+          </div>
+        </div>
+        <div class="contact-sep"></div>
+        <div class="contact-item">
+          <div class="contact-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
+          </div>
+          <div class="contact-body">
+            <div class="contact-lbl">Site web</div>
+            <div class="contact-val">guehinadje-ic.github.io/site-ivory-consulting</div>
+          </div>
+        </div>
+      </div>
+      <div class="meta" style="font-size:22px">La Fabrique à Neurones · Ivory Consulting</div>
+    </div>
+    <div class="slide-logo">
+      <div class="mark"><img src="assets/logo-ivory-small.png" alt="Ivory Consulting"></div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<!-- ============ Speaker notes ============ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="application/json" id="speaker-notes">
+[
+  "Bienvenue ! On va passer une heure ensemble à explorer comment fonctionne notre attention, et surtout pourquoi les pauses ne sont pas une perte de temps. QUESTION D'ENTRÉE pour briser la glace : « À votre avis, combien de temps peut-on rester pleinement concentré sans interruption ? » Notez les réponses au tableau ou mentalement — vous y reviendrez au quiz final. Annoncez la durée (~1h), précisez que ce sera très interactif, qu'on va jouer ensemble, et qu'on participe à voix haute.",
+
+  "Je me présente. Adaptez à votre histoire : parcours, formation, ce qui vous a amené à animer ce genre d'atelier, votre intention pour cette heure. Restez bref (90 secondes max). QUESTION POSSIBLE pour rendre interactif dès le début : « Et vous, qui êtes-vous ? Un mot ou deux : votre prénom, votre poste, et ce que vous espérez ressortir d'aujourd'hui. » Si le groupe est grand (>10), demandez juste à 3-4 volontaires. Si <8, faites le tour complet — ça pose une dynamique collective.",
+
+  "Présentation rapide d'Ivory Consulting. À adapter selon votre rattachement. Insistez sur la spécificité : on ne fait pas du bien-être au sens vague, on travaille avec ce que les neurosciences ont à dire de concret pour le monde du travail. QUESTION : « Combien d'entre vous ont déjà suivi un atelier sur le fonctionnement du cerveau ? » Levée de main rapide pour jauger le niveau. Si majorité oui, vous pouvez aller plus vite sur les bases. Si non, vous prendrez le temps.",
+
+  "La Fabrique à Neurones — c'est le nom du programme dans lequel s'inscrit cet atelier. Cinq ateliers cognitifs d'une heure chacun, sur cinq grands thèmes du fonctionnement du cerveau au travail. Aujourd'hui c'est le 2e : Concentration et Pause. Annoncez les autres rapidement pour donner le contexte. QUESTION : « Y a-t-il un thème parmi ces cinq qui vous parle particulièrement, où vous avez l'impression d'avoir le plus besoin d'aide ? » Petit sondage à main levée — ça permet de capter ceux qui pourraient revenir.",
+
+  "Posez les trois objectifs très clairement. Insistez sur le 2 : on ne va pas seulement écouter, on va EXPÉRIMENTER. Et le 3 : on repart avec des outils concrets, pas avec de la théorie. QUESTION : « Avant de commencer, parmi ces 3 objectifs, lequel vous parle le plus aujourd'hui ? Comprendre, expérimenter, ou repartir avec des outils ? » Ça vous dit où mettre l'énergie. Si beaucoup disent « expérimenter », vous saurez qu'il faut bien soigner la partie jeux.",
+
+  "Le programme en 6 temps. Le rythme : on alterne théorie courte (5-10 min) et expériences (15-25 min). Précisez qu'on terminera par un quiz ensemble pour vérifier ce qui est resté. QUESTION : « Qui a déjà entendu parler du test de Stroop ? Ou de l'expérience du gorille invisible ? » Si plusieurs lèvent la main, dites « parfait, vous pourrez aider les autres ». Si personne, dites « tant mieux, l'effet de surprise sera total ».",
+
+  "Module 1. Ici on rentre dans le vif. Posez l'idée centrale : l'attention n'est PAS une chose unique. C'est un mot fourre-tout qui regroupe plusieurs systèmes et plusieurs formes. Comprendre ça change déjà beaucoup. Annoncez : on va voir 3 systèmes (alerte, orientation, contrôle) et 3 formes (sélective, soutenue, divisée).",
+
+  "Définition. L'attention, c'est CHOISIR — et TENIR ce choix. Insistez : à chaque seconde, notre cerveau reçoit des MILLIONS d'informations sensorielles. Il en garde quelques-unes. Tout le reste est filtré, sans qu'on en ait conscience. QUESTION : « Là tout de suite, sans regarder, quel bruit y a-t-il dans la pièce ? Et la sensation de votre dos sur la chaise, vous la sentiez avant que je vous en parle ? » Effet garanti — tout le monde réalise qu'on filtrait en permanence. C'est exactement ÇA, l'attention.",
+
+  "Les 3 systèmes attentionnels — modèle de Posner (chercheur en neurosciences, 1990). UN : l'alerte, c'est être ÉVEILLÉ et prêt — système porté par le tronc cérébral. DEUX : l'orientation, c'est diriger le PROJECTEUR vers une cible — cortex pariétal. TROIS : le contrôle exécutif, c'est TENIR malgré la distraction — cortex préfrontal. Donnez l'exemple concret pour chacun. QUESTION : « Lequel de ces trois systèmes vous semble le plus fragile chez vous, en fin de journée ? » Beaucoup diront le 3 (le contrôle), et vous pouvez rebondir : « C'est normal, le préfrontal est le premier à fatiguer. »",
+
+  "Les 3 FORMES d'attention au quotidien. SÉLECTIVE : choisir une source, ignorer les autres. SOUTENUE : tenir dans le temps. DIVISÉE : faire plusieurs choses — alors que c'est en réalité un SWITCH très rapide entre tâches. Le mot « multitâche » est un mythe. QUESTION : « Qui se considère bon en multitâche ? » Souvent plusieurs mains se lèvent. Demandez ensuite : « Et qui dort moins de 7h par nuit en ce moment ? » Souvent les mêmes mains. C'est rigolo mais c'est documenté : on se croit multitâche, on est juste fatigué et on commute beaucoup.",
+
+  "Module 2. On rentre dans le cerveau — la cartographie. L'idée : poser visuellement quelles zones sont impliquées. Ce n'est pas un cours de neuro-anatomie, c'est juste pour donner des images. Ensuite on verra les deux GRANDS RÉSEAUX en compétition.",
+
+  "Les 4 zones clés de l'attention. PRÉFRONTAL — le chef d'orchestre, qui décide où placer l'attention. PARIÉTAL — le projecteur, qui oriente vers une cible. CINGULAIRE ANTÉRIEUR — le détecteur d'erreurs, qui s'allume quand on se trompe ou qu'il faut faire un effort de plus. TRONC CÉRÉBRAL — la vigilance, l'éveil de base. Insistez : ces zones travaillent ENSEMBLE, en réseau. Pas isolément. QUESTION : « Si demain on vous coupait le préfrontal — ne le faites pas chez vous — qu'est-ce qui se passerait ? » Réponses possibles : impulsivité, distraction permanente, pas de planification. C'est exactement ce qui se passe quand on est très fatigué : le préfrontal lâche en premier.",
+
+  "Le cœur du module 1 et 2 réuni : DEUX RÉSEAUX en compétition. Vigilance (héritage évolutif, scrute l'environnement, surveille le danger) vs Concentration (orientée vers UNE tâche). Quand l'un s'allume, l'autre BAISSE. Ce n'est pas un choix conscient, c'est physiologique. QUESTION : « Vous est-il déjà arrivé d'être plongé dans un mail et de sursauter quand quelqu'un est entré dans la pièce ? » Tout le monde fait oui. Voilà : votre concentration était à fond, votre vigilance avait baissé — l'arrivée du collègue a brutalement basculé le système.",
+
+  "Le switch attentionnel. On croit pouvoir faire plusieurs choses, mais le cerveau bascule en réalité d'une tâche à l'autre — et CHAQUE BASCULE coûte. Études : jusqu'à 40% de temps perdu quand on passe sans cesse d'une tâche à l'autre. Le switch a un coût neuronal réel. QUESTION : « Vous arrive-t-il, en réunion, d'ouvrir vos mails 'juste pour voir' ? Et de relever la tête en ayant raté 30 secondes de discussion ? » Tout le monde rit, tout le monde se reconnaît. Conclusion : ce n'est pas du multitâche, c'est du multi-switch — et c'est coûteux.",
+
+  "Module 3 : les conséquences physiologiques. Maintenant qu'on a posé le mécanisme, on regarde le COÛT — la fatigue cognitive. Idée centrale : ce n'est PAS un manque de volonté. C'est un signal métabolique, comme la faim ou la soif.",
+
+  "La balance bascule — animation visuelle. Tenir un haut niveau de concentration puise dans des ressources RÉELLES : glucose, neurotransmetteurs (dopamine, noradrénaline), oxygène. Au bout d'un certain temps — qui dépend des personnes, de l'environnement, du sommeil — la balance bascule. La fatigue prend le dessus. Et là, on relit la même phrase, on s'agace, on fait des erreurs bêtes. INSISTEZ : ce n'est pas un manque de volonté. C'est physiologique. QUESTION : « À quelle heure de la journée vous sentez votre attention chuter ? » Réponses typiques : 14h-15h (digestion + cycle ultradien), fin de journée. Validez : « C'est complètement normal — c'est même quantifié dans la littérature. »",
+
+  "Les 4 familles de signaux de fatigue. Faites-les lire à voix haute par les participants (un par famille) — ça les implique. COGNITIF (relire 3 fois la même phrase), ÉMOTIONNEL (irritabilité), PHYSIQUE (bâillements, tensions), COMPORTEMENTAL (scroller, grignotage). Le but : que chacun identifie SES signaux personnels. QUESTION : « Lequel de ces quatre vous reconnaissez le plus chez vous ? » Tour de table rapide ou main levée. Ça crée de la prise de conscience — beaucoup réalisent qu'ils étaient en fatigue sans le savoir.",
+
+  "Module 4 — les jeux. C'est le cœur interactif de l'atelier. Annoncez : 4 jeux, environ 20 minutes, à jouer à voix haute, en collectif. L'idée n'est pas de gagner : c'est de SENTIR ce qu'on vient de théoriser. Le plus drôle, c'est que tout le monde se trompe — y compris les pros de la concentration.",
+
+  "JEU 1 — Effet Stroop, inventé en 1935 par John Ridley Stroop. Cliquez sur DÉMARRER. Règle : tout le monde dit à VOIX HAUTE la COULEUR de l'encre, pas le mot. Quand 'ROUGE' s'affiche en vert, on dit 'vert'. La cadence est rapide (1,4s). Ça doit créer une cacophonie — c'est normal et c'est l'intérêt. À la fin, demandez : « C'était facile ? Vous avez senti votre cerveau ralentir, hésiter ? » EXPLICATION : votre cerveau LIT le mot automatiquement avant même que vous le décidiez. Pour donner la bonne réponse, vous devez INHIBER cette lecture. C'est exactement le travail du contrôle exécutif (préfrontal). Et ça coûte cher.",
+
+  "JEU 2 — Attention sélective. Cliquez DÉMARRER. Règle : pendant 18 secondes, comptez les fois où une BALLE DORÉE TOUCHE UN BORD. Restez concentrés. Ne notez rien — comptage mental. À la fin, demandez le score à plusieurs personnes — vous aurez des chiffres différents, c'est normal. PUIS — moment clé — cliquez 'Avez-vous vu l'intrus ?'. Question piège : « Avez-vous vu QUELQUE CHOSE D'AUTRE pendant que vous comptiez ? » Beaucoup n'auront PAS vu le carré bleu qui traverse au milieu. C'est la CÉCITÉ D'INATTENTION — référence à l'expérience du gorille de Simons et Chabris (1999). EXPLICATION : quand le cerveau se concentre, il rend littéralement INVISIBLE ce qui n'est pas dans sa cible. Refaites-le en disant : « Cette fois, regardez juste l'écran » — et le gorille saute aux yeux.",
+
+  "JEU 3 — Comptage simultané. Demandez aux participants de lire le paragraphe EN SILENCE et de compter combien de fois apparaissent les mots 'un' ET 'de'. Donnez 45 secondes. Quand le temps est écoulé, demandez les réponses à voix haute — vous aurez des chiffres très différents. Cliquez sur RÉVÉLER. Bonne réponse : 7 fois 'un', 3 fois 'de'. Le piège : il faut tenir DEUX comptages EN PARALLÈLE, tout en suivant le sens du texte. Beaucoup se rendent compte qu'ils ont oublié le deuxième mot, ou qu'ils ont confondu 'un' avec 'une', 'de' avec 'des'. CONCLUSION : notre attention n'a pas de capacité infinie. On doit choisir ce qu'on suit.",
+
+  "JEU 4 — Trouvez l'intrus. Annoncez : 4 rounds de difficulté croissante. Cherchez le symbole DIFFÉRENT dans la grille. Cliquez dessus quand vous le voyez. Lancez le premier round (cercles pleins vs cercle évidé) — facile, 2-3 secondes. Round 2 (triangles haut/bas) — moyen. Round 3 (carrés pleins/vides) — moyen. Round 4 (lettres C et G) — difficile, car C et G sont très proches visuellement. CONCLUSION : plus la grille est dense ET plus l'intrus ressemble aux autres, plus l'attention sélective épuise vite. C'est exactement ce qui se passe au bureau quand on cherche un détail dans un tableau Excel à 16h.",
+
+  "Synthèse des 4 jeux. Reprenez chaque leçon à l'oral en demandant aux participants de la formuler eux-mêmes. QUESTION : « Pour chacun des jeux, quelle leçon vous retenez ? » Stroop = lire est un automatisme à inhiber. Gorille = se concentrer rend aveugle. Comptage = on ne fait pas 2 choses à la fois. Intrus = l'attention fatigue vite. Pont vers la suite : « OK, on a vu que c'est limité. La bonne nouvelle, c'est que ça SE RECHARGE. Et c'est tout l'objet du dernier module. »",
+
+  "Module 5 — les pauses. Le module le plus PRATIQUE de l'atelier. Annoncez : on va passer 10 minutes sur ce que SONT les bonnes pauses, et surtout celles qui ne marchent PAS, même si on les pratique tous.",
+
+  "Idée reçue à dépoussiérer. « Je ferai une pause quand j'aurai fini. » MAUVAIS RÉFLEXE. Le cerveau ne fonctionne pas comme un téléphone qui se recharge en veille. Pour récupérer, il a besoin de BASCULER D'UN MODE À L'AUTRE — du mode focus au mode 'repos actif', celui où on rêve éveillé. QUESTION : « Et vous, vous vous autorisez à faire des pauses dans la journée ? Combien environ ? » Faites un tour de table rapide. Beaucoup diront 'pas vraiment', ou 'à midi'. Repère typique : 1 vraie pause par 90 minutes de travail, c'est l'idéal physiologique (cycle ultradien).",
+
+  "Le DMN — Default Mode Network. C'est le réseau qui s'active quand on ARRÊTE de se concentrer. Le réseau du vagabondage mental, de la rêverie, des associations libres. Découvert dans les années 2000. C'est lui qui consolide la mémoire (vous savez, ces idées qu'on a sous la douche le matin — c'est lui). QUESTION : « Où avez-vous vos meilleures idées ? Au bureau devant l'écran ? Ou ailleurs ? » 95% des gens disent : sous la douche, en marchant, en faisant la vaisselle, dans la voiture. EXACTEMENT — parce que dans ces moments-là, le réseau du focus se met en veille, et le DMN se met au travail. Sans qu'on s'en aperçoive.",
+
+  "Les 4 pauses qui rechargent. UN : s'étirer, bâiller — remet du sang et de l'oxygène dans le cerveau, relâche les tensions de posture (cou, épaules, mâchoire — souvent crispés). DEUX : marcher 3 minutes — bouger réactive le réseau attentionnel et booste le DMN. Même un aller-retour aux toilettes compte. TROIS : respirer en conscience — 4 secondes inspiration, 6 secondes expiration. Trois cycles seulement, et la pression baisse mesurablement (système nerveux parasympathique). QUATRE : changer d'activité, idéalement manuelle ou sensorielle. Faire la vaisselle, regarder par la fenêtre, parler à un collègue d'autre chose. POINT COMMUN : toutes ces pauses sont ACTIVES. QUESTION : « Laquelle de ces quatre allez-vous tester cette semaine, en priorité ? » Engagement public — beaucoup plus de chances de tenir.",
+
+  "LE message à graver. Scroller son téléphone n'est PAS une pause. C'est juste un autre type de concentration — orienté distraction, avec en bonus du stress (notifications), des comparaisons sociales et des décisions toutes les deux secondes. Le cerveau ne récupère pas. Au contraire : il sort de la pause plus fatigué qu'il n'y est entré. QUESTION : « Combien de temps passez-vous sur votre téléphone par jour ? L'application Bien-être numérique vous le dit. » Beaucoup ne savent pas, ou refusent de regarder. Sans culpabiliser : juste poser le fait. Conseil concret : pendant les pauses pro, le téléphone reste DANS LE TIROIR. Pas sur le bureau, pas dans la poche. Dans le tiroir.",
+
+  "Module 6 — synthèse et quiz. Annoncez : on va valider ensemble ce qui est resté, sous forme d'un petit quiz interactif. 6 questions, en collectif. Et puis questions, et fin. Restez 7-8 minutes là-dessus.",
+
+  "À retenir — 3 choses. Faites-les répéter par les participants. UN : concentration et vigilance sont en COMPÉTITION. DEUX : l'attention COÛTE de l'énergie. TROIS : la pause active n'est PAS une perte de temps. Insistez sur le troisième — c'est culturellement le plus difficile à intégrer dans les contextes pro. DÉFI POUR LA SEMAINE : tester UNE pause active de 5 minutes, dans la journée, SANS téléphone. Et observer ce que ça change. Demandez : « Qui s'engage à le faire cette semaine ? » Levée de main publique — engagement social.",
+
+  "QUIZ. Cliquez sur la première question. Lisez à voix haute. Demandez aux participants de répondre À VOIX HAUTE (ou main levée par option), AVANT de cliquer la bonne réponse. Discutez les hésitations — c'est là que ça apprend. Pour chaque question, après la réponse : « Pourquoi cette réponse ? Qu'est-ce qu'on a dit là-dessus tout à l'heure ? » Le quiz n'est pas une évaluation, c'est un récap interactif. À la fin, le score s'affiche — fêtez-le quel qu'il soit. Si <60% : « C'est normal, c'est dense, vous repartez avec le PDF récap. »",
+
+  "Place aux questions. C'est SOUVENT la partie la plus riche. Si personne ne se lance, amorcez : « Y a-t-il une chose qui vous a SURPRIS aujourd'hui ? » Ou : « Y a-t-il une chose dont vous n'êtes PAS d'accord ? » L'objection ouvre toujours plus que le compliment. Gardez 5-7 minutes pour cette partie. Si une question vous met en difficulté, dites-le simplement : « Bonne question, je ne sais pas, je vous reviens. » Mieux vaut ça que d'inventer.",
+
+  "Conclusion et remerciements. Remerciez chacun par son prénom si possible. Rappelez le défi de la semaine (UNE pause active de 5 min, sans téléphone). Donnez votre contact, dites qu'ils peuvent vous écrire avec leurs retours. Annoncez le prochain atelier (AC · 03 — Stress et émotions) si pertinent. FINISSEZ SUR UN SOURIRE."
+]
+</script>
+
+<script src="deck-stage.js"></script>
+<script src="shader-bg.js"></script>
+<script src="atelier-games.js"></script>
+
+<script>
+  // ----- Patch deck-stage canvas background to transparent so shader shows through.
+  customElements.whenDefined('deck-stage').then(() => {
+    const ds = document.querySelector('deck-stage');
+    const apply = () => {
+      const c = ds.shadowRoot && ds.shadowRoot.querySelector('.canvas');
+      if (c) { c.style.background = 'transparent'; }
+      else { setTimeout(apply, 60); }
+    };
+    apply();
+  });
+</script>
+</body>
+</html>
