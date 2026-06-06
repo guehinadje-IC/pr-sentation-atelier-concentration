@@ -235,6 +235,132 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--nv);font-famil
 .att-name{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
 .att-desc{font-size:11px;line-height:1.5;color:rgba(245,239,224,.72)}
 .att-bjj{font-size:10px;font-style:italic;color:var(--gd2);margin-top:4px}
+
+/* ═══════════════════════════════════════════════════
+   MOBILE / TABLETTE RESPONSIVE  (ajout v7)
+═══════════════════════════════════════════════════ */
+
+/* Toutes les slides actives : autoriser le scroll vertical sur mobile */
+@media(max-width:768px){
+  .slide.active{
+    overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch!important
+  }
+
+  /* ── S02 Animateur ── */
+  .s02-main{
+    flex-direction:column!important;
+    padding:14px 16px 56px!important;
+    gap:10px!important
+  }
+  .s02-side{
+    width:100%!important;
+    flex-shrink:unset!important;
+    flex-direction:row!important;
+    flex-wrap:wrap!important;
+    gap:8px!important
+  }
+  .s02-side .card,
+  .s02-side>div{flex:1;min-width:160px}
+  #s02 .a.d1{font-size:clamp(26px,8vw,40px)!important;margin:6px 0!important}
+  #s02 .a.d2.sserif{font-size:14px!important;margin-bottom:10px!important}
+  #s02 .a.d4 img{height:40px!important}
+
+  /* ── S04 Données ── */
+  #s04>div:nth-child(2){
+    grid-template-columns:1fr!important;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:50px
+  }
+  #s04>div:nth-child(2)>div{
+    border-right:none!important;
+    border-bottom:1px solid rgba(191,155,48,.2)!important;
+    padding:18px 16px!important
+  }
+
+  /* ── sNA Deux réseaux ── */
+  .brain-compare{
+    grid-template-columns:1fr!important;
+    margin-top:6px!important;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch
+  }
+  .bc-left{
+    border-right:none!important;
+    border-bottom:2px solid rgba(34,197,94,.4)!important;
+    padding:14px 16px!important;
+    gap:8px!important
+  }
+  .bc-right{padding:14px 16px!important;gap:8px!important}
+  .bc-item{font-size:11px!important}
+  #sNA .a.d3{padding:10px 16px!important;font-size:11px!important}
+
+  /* ── sNB 3 types d'attention ── */
+  .snb-outer{padding:12px 14px!important;gap:8px!important}
+  .att-grid{
+    grid-template-columns:1fr!important;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    gap:6px!important;
+    flex:unset!important
+  }
+  .att-type{
+    flex-direction:row!important;
+    text-align:left!important;
+    padding:10px 12px!important;
+    gap:10px!important;
+    justify-content:flex-start!important;
+    align-items:flex-start!important;
+    border-top:none!important;
+    border-left:3px solid transparent
+  }
+  .att-type[style*="22C55E"]{border-left-color:#22C55E!important}
+  .att-type[style*="rd)"]{border-left-color:var(--rd)!important}
+  .att-type[style*="gd)"]{border-left-color:var(--gd)!important}
+  .att-icon{font-size:22px!important;margin-bottom:0!important;flex-shrink:0;padding-top:2px}
+  .att-name{font-size:12px!important;margin-bottom:1px!important}
+  .att-desc{font-size:10.5px!important;line-height:1.4!important}
+  .att-bjj{font-size:10px!important;margin-top:2px!important}
+  #sNB .a.d4{padding:10px 12px!important;font-size:10.5px!important}
+  #sNB .a.d1{font-size:clamp(18px,5vw,28px)!important}
+
+  /* ── Bouton présentateur ── */
+  #pbtn{
+    font-size:11px!important;
+    padding:8px 16px!important;
+    top:10px!important;
+    left:10px!important
+  }
+
+  /* ── HUD compact ── */
+  #hud .hbtn{padding:7px 14px!important;font-size:9px!important}
+  #snum{font-size:10px!important}
+}
+
+/* Paysage mobile (hauteur limitée) */
+@media(max-height:500px) and (max-width:900px){
+  .brain-compare{max-height:calc(100vh - 120px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  .att-grid{max-height:calc(100vh - 120px);overflow-y:auto;-webkit-overflow-scrolling:touch}
+  #s02 .a.d1{font-size:clamp(20px,5vw,32px)!important}
+}
+
+/* ─── Hint plein écran ─── */
+#fs-hint{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  background:rgba(12,25,66,.97);border:1px solid var(--gd);
+  padding:22px 28px;z-index:9999;text-align:center;
+  color:var(--iv);font-family:Montserrat,sans-serif;
+  font-size:12px;max-width:300px;line-height:1.7;
+  backdrop-filter:blur(12px)
+}
+#fs-hint strong{color:var(--gd)}
+#fs-hint button{
+  margin-top:14px;padding:7px 20px;
+  background:var(--gd);border:none;color:var(--nv);
+  font-weight:700;cursor:pointer;font-family:Montserrat,sans-serif;
+  font-size:11px;letter-spacing:1px
+}
 </style>
 </head>
 <body>
@@ -1110,6 +1236,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--nv);font-famil
     <button class="hbtn" onclick="goFS()">⛶</button>
   </div>
   <button class="hbtn" onclick="go(cur+1)">Suiv →</button>
+  <button class="hbtn" onclick="toggleP()" title="Mode Présentateur (P)" style="font-size:16px;padding:4px 10px">👁</button>
 </div>
 
 <script>
@@ -1293,7 +1420,30 @@ document.addEventListener('touchend',e=>{
 let hudT;const hud=document.getElementById('hud');
 function showHUD(){hud.classList.remove('hide');clearTimeout(hudT);if(!presOpen)hudT=setTimeout(()=>hud.classList.add('hide'),3500);}
 document.addEventListener('mousemove',showHUD);document.addEventListener('touchstart',showHUD,{passive:true});showHUD();
-function goFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});else document.exitFullscreen().catch(()=>{});}
+function goFS(){
+  const el=document.documentElement;
+  try{
+    if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+      const p=el.requestFullscreen?el.requestFullscreen({navigationUI:'hide'}):
+               el.webkitRequestFullscreen?el.webkitRequestFullscreen():null;
+      if(p)p.catch(()=>showFSHint());else showFSHint();
+    }else{
+      const ex=document.exitFullscreen||document.webkitExitFullscreen;
+      if(ex)ex.call(document).catch(()=>{});
+    }
+  }catch(e){showFSHint();}
+}
+function showFSHint(){
+  if(document.getElementById('fs-hint'))return;
+  const d=document.createElement('div');d.id='fs-hint';
+  d.innerHTML='<div style="color:var(--gd);font-weight:700;font-size:13px;margin-bottom:10px">⛶ Mode plein écran</div>'
+    +'<strong>Mac :</strong> appuyez sur <kbd style="background:rgba(191,155,48,.2);padding:2px 6px;border-radius:3px">F</kbd> ou Cmd+Ctrl+F<br>'
+    +'<strong>iPhone/iPad :</strong> Partage → <strong>Sur l'écran d'accueil</strong>, puis ouvrez en plein écran<br>'
+    +'<strong>Android :</strong> Menu Chrome → Mode plein écran'
+    +'<br><button onclick="document.getElementById('fs-hint').remove()">Compris</button>';
+  document.body.appendChild(d);
+  setTimeout(()=>{const el=document.getElementById('fs-hint');if(el)el.remove();},7000);
+}
 function toggleP(){presOpen=!presOpen;document.getElementById('ppanel').classList.toggle('open',presOpen);document.getElementById('pbtn').textContent=presOpen?'✕ FERMER':'👁 PRÉSENTATEUR';hud.style.bottom=presOpen?'262px':'0';if(!presOpen)showHUD();}
 let tSec=0,tInt=null,tOn=false;
 function toggleTimer(){if(tOn){clearInterval(tInt);tOn=false;}else{tInt=setInterval(()=>{tSec++;updateClk();},1000);tOn=true;}}
