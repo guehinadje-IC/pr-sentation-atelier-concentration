@@ -89,6 +89,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   <div class="tab" onclick="showTab('reaction')">⚡ Réaction</div>
   <div class="tab" onclick="showTab('anagram')">🔤 Anagram</div>
   <div class="tab" onclick="showTab('breath')">🌊 Souffle</div>
+  <div class="tab" onclick="showTab('meditation')">🧘 Méditation</div>
 </div>
 
 <!-- ═══ STROOP ═══ -->
@@ -186,6 +187,64 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <button class="btn" onclick="resetBreath()">↺ Reset</button>
   </div>
   <div class="info-box"><strong>Sur le tapis :</strong> 3 cycles avant combat → réduit le cortisol · 1 cycle après une erreur → reset mental · Entre rounds → 1-2 cycles rapides. Réduction de l'activité de l'amygdale en 90 secondes.</div>
+</div>
+
+
+<!-- ═══ MÉDITATION GUIDÉE ═══ -->
+<div id="tab-meditation" class="panel">
+  <div>
+    <div class="panel-title">Scan Corporel LaFaN 5 min</div>
+    <div class="panel-sub">Balayage corporel guidé · Développez la conscience intéroceptive · Réinitialisez le système nerveux</div>
+  </div>
+
+  <!-- Anneau SVG de progression -->
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;flex:1;justify-content:center">
+    <div style="position:relative;width:180px;height:180px">
+      <svg width="180" height="180" style="transform:rotate(-90deg)">
+        <circle cx="90" cy="90" r="80" fill="none" stroke="rgba(191,155,48,.15)" stroke-width="10"/>
+        <circle id="med-ring" cx="90" cy="90" r="80" fill="none"
+          stroke="var(--gd,#BF9B30)" stroke-width="10"
+          stroke-linecap="round"
+          stroke-dasharray="502.65" stroke-dashoffset="502.65"
+          style="transition:stroke-dashoffset .5s linear,stroke .5s"/>
+      </svg>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
+        <div id="med-time" style="font-size:32px;font-weight:700;color:var(--gd,#BF9B30);letter-spacing:1px;font-family:Montserrat,sans-serif">5:00</div>
+        <div id="med-phase-lbl" style="font-size:9px;letter-spacing:1.5px;opacity:.6;font-family:Montserrat,sans-serif;text-transform:uppercase">Prêt</div>
+      </div>
+    </div>
+
+    <!-- Message guidé -->
+    <div id="med-msg" style="font-size:13px;line-height:1.65;text-align:center;max-width:320px;min-height:72px;padding:0 12px;color:inherit;font-family:Montserrat,sans-serif;opacity:.9">
+      Installez-vous confortablement.<br>Fermez les yeux ou posez le regard doucement.
+    </div>
+
+    <!-- Barre de phase -->
+    <div style="width:100%;max-width:340px;padding:0 12px">
+      <div style="display:flex;justify-content:space-between;font-size:9px;opacity:.5;margin-bottom:4px;font-family:Montserrat,sans-serif;letter-spacing:1px">
+        <span>Instal.</span><span>Pieds→Genoux</span><span>Cuisses→Thorax</span><span>Épaules→Crâne</span><span>Intégration</span>
+      </div>
+      <div style="height:4px;background:rgba(191,155,48,.15);border-radius:2px;overflow:hidden;display:flex;gap:2px">
+        <div id="mp0" style="flex:0.1;background:rgba(191,155,48,.3);border-radius:2px;transition:background .5s"></div>
+        <div id="mp1" style="flex:0.2;background:rgba(191,155,48,.3);border-radius:2px;transition:background .5s"></div>
+        <div id="mp2" style="flex:0.2;background:rgba(191,155,48,.3);border-radius:2px;transition:background .5s"></div>
+        <div id="mp3" style="flex:0.2;background:rgba(191,155,48,.3);border-radius:2px;transition:background .5s"></div>
+        <div id="mp4" style="flex:0.3;background:rgba(191,155,48,.3);border-radius:2px;transition:background .5s"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contrôles -->
+  <div class="btn-row" style="justify-content:center;gap:12px">
+    <button class="btn" id="med-btn-start" onclick="medStart()" style="min-width:100px">▶ Démarrer</button>
+    <button class="btn" id="med-btn-pause" onclick="medPause()" style="display:none;min-width:100px">⏸ Pause</button>
+    <button class="btn" onclick="medReset()" style="border-color:#666;color:#666">↺ Réinitialiser</button>
+  </div>
+
+  <!-- Conseil LaFaN -->
+  <div class="panel-sub" style="font-size:10px;opacity:.65;margin-top:6px;padding:0 12px;line-height:1.6">
+    💡 <strong>LaFaN — Scan corporel BJJ :</strong> Phase offensive → contractez puis relâchez. Phase défensive → concentrez-vous sur votre respiration. Après un match → scan complet pour récupérer.
+  </div>
 </div>
 
 <script>
@@ -398,6 +457,146 @@ function runBreathStep(){
     }
   },1000);
 }
+
+// ═══ MÉDITATION GUIDÉE — Scan Corporel LaFaN 5 min ═══
+const MED_PHASES = [
+  { dur: 30,  msgs: [
+    "Installez-vous confortablement. Fermez les yeux.",
+    "Relâchez les épaules. Prenez 3 grandes respirations.",
+    "Sentez votre corps en contact avec le sol ou votre siège."
+  ]},
+  { dur: 60,  msgs: [
+    "🦶 Orteils — Portez toute votre attention sur vos orteils. Sentez-les.",
+    "🦶 Pieds — Sentez la plante de vos pieds, les talons, la voûte plantaire.",
+    "🦵 Chevilles & mollets — Relâchez toute tension. Laissez-les s'alourdir.",
+    "🦵 Genoux — Observez les sensations autour des genoux, sans juger."
+  ]},
+  { dur: 60,  msgs: [
+    "🦵 Cuisses — Sentez la chaleur dans les quadriceps et ischio-jambiers.",
+    "🍑 Bassin & fessiers — Relâchez complètement ces muscles profonds.",
+    "🔙 Bas du dos — Chaque expiration, le dos s'alourdit un peu plus.",
+    "🫁 Ventre & thorax — Sentez le mouvement de la respiration. Ne contrôlez pas."
+  ]},
+  { dur: 60,  msgs: [
+    "💪 Épaules — Laissez-les tomber loin des oreilles. Relâchez.",
+    "💪 Avant-bras & mains — Ouvrez légèrement les paumes. Sentez le poids.",
+    "🤚 Doigts — Observez les picotements ou la chaleur dans chaque doigt.",
+    "🦒 Cou — Relâchez les muscles du cou. La tête est lourde et soutenue.",
+    "😌 Visage & crâne — Front lisse, mâchoires relâchées, paupières douces."
+  ]},
+  { dur: 90,  msgs: [
+    "🌊 Corps entier — Sentez tout votre corps comme une unité, lourd et détendu.",
+    "✨ Observez les sensations sans les modifier. Simple présence.",
+    "🌬️ Chaque expiration approfondit la détente. Vous êtes ici, maintenant.",
+    "⚡ Remarquez la différence entre les zones tendues et les zones relâchées.",
+    "🏆 Gravez cette sensation de calme. Vous pourrez y revenir à tout moment.",
+    "💫 Dans quelques instants, vous rouvrirez les yeux, alerte et recentré."
+  ]}
+];
+const MED_TOTAL = MED_PHASES.reduce((s,p)=>s+p.dur,0); // 300s
+
+let medTimer=null, medElapsed=0, medRunning=false;
+let medPhaseIdx=0, medMsgIdx=0, medMsgTimer=null;
+
+function medFmt(s){const m=Math.floor(s/60),ss=s%60;return m+':'+(ss<10?'0':'')+ss;}
+
+function medUpdateUI(){
+  const rem = MED_TOTAL - medElapsed;
+  document.getElementById('med-time').textContent = medFmt(Math.max(0,rem));
+
+  // Anneau — remplissage progressif
+  const prog = medElapsed / MED_TOTAL;
+  const circ = 502.65;
+  document.getElementById('med-ring').style.strokeDashoffset = (circ*(1-prog)).toFixed(2);
+
+  // Couleur de l'anneau selon la phase
+  const colors = ['#BF9B30','#22C55E','#60a5fa','#a78bfa','#f97316'];
+  document.getElementById('med-ring').style.stroke = colors[medPhaseIdx] || '#BF9B30';
+
+  // Highlight phase bar
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('mp'+i);
+    if(el) el.style.background = i===medPhaseIdx
+      ? (colors[i]||'#BF9B30')
+      : 'rgba(191,155,48,.25)';
+  }
+
+  // Label de phase
+  const lbls=['Installation','Pieds → Genoux','Cuisses → Thorax','Épaules → Crâne','Corps entier'];
+  document.getElementById('med-phase-lbl').textContent = lbls[medPhaseIdx]||'';
+}
+
+function medNextMsg(){
+  const phase = MED_PHASES[medPhaseIdx];
+  if(!phase) return;
+  const msgs = phase.msgs;
+  document.getElementById('med-msg').innerHTML = msgs[medMsgIdx % msgs.length].replace(/
+/g,'<br>');
+  medMsgIdx++;
+  // Changer le message toutes les ~12s dans la phase
+  const interval = Math.floor(phase.dur / msgs.length) * 1000;
+  medMsgTimer = setTimeout(medNextMsg, interval);
+}
+
+function medStart(){
+  if(medRunning) return;
+  medRunning=true;
+  document.getElementById('med-btn-start').style.display='none';
+  document.getElementById('med-btn-pause').style.display='';
+  medNextMsg();
+  medTimer = setInterval(()=>{
+    medElapsed++;
+
+    // Calculer la phase actuelle
+    let acc=0;
+    for(let i=0;i<MED_PHASES.length;i++){
+      acc+=MED_PHASES[i].dur;
+      if(medElapsed<=acc){
+        if(medPhaseIdx!==i){medPhaseIdx=i;medMsgIdx=0;clearTimeout(medMsgTimer);medNextMsg();}
+        break;
+      }
+    }
+    medUpdateUI();
+
+    if(medElapsed>=MED_TOTAL){
+      clearInterval(medTimer);
+      clearTimeout(medMsgTimer);
+      medRunning=false;
+      document.getElementById('med-msg').innerHTML='✅ <strong>Scan terminé.</strong><br>Prenez 2 respirations profondes. Ouvrez les yeux doucement.';
+      document.getElementById('med-time').textContent='0:00';
+      document.getElementById('med-btn-pause').style.display='none';
+      document.getElementById('med-btn-start').style.display='';
+      document.getElementById('med-btn-start').textContent='↺ Recommencer';
+      document.getElementById('med-ring').style.stroke='#22C55E';
+    }
+  },1000);
+}
+
+function medPause(){
+  if(!medRunning){medStart();return;}
+  clearInterval(medTimer);
+  clearTimeout(medMsgTimer);
+  medRunning=false;
+  document.getElementById('med-btn-pause').style.display='none';
+  document.getElementById('med-btn-start').style.display='';
+  document.getElementById('med-btn-start').textContent='▶ Reprendre';
+}
+
+function medReset(){
+  clearInterval(medTimer);
+  clearTimeout(medMsgTimer);
+  medRunning=false; medElapsed=0; medPhaseIdx=0; medMsgIdx=0;
+  document.getElementById('med-time').textContent='5:00';
+  document.getElementById('med-msg').innerHTML='Installez-vous confortablement.<br>Fermez les yeux ou posez le regard doucement.';
+  document.getElementById('med-phase-lbl').textContent='Prêt';
+  document.getElementById('med-ring').style.strokeDashoffset='502.65';
+  document.getElementById('med-ring').style.stroke='#BF9B30';
+  document.getElementById('med-btn-pause').style.display='none';
+  document.getElementById('med-btn-start').style.display='';
+  document.getElementById('med-btn-start').textContent='▶ Démarrer';
+  for(let i=0;i<5;i++){const el=document.getElementById('mp'+i);if(el)el.style.background='rgba(191,155,48,.25)';}
+}
+
 </script>
 </body>
 </html>

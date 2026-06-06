@@ -1434,15 +1434,17 @@ function goFS(){
   }catch(e){showFSHint();}
 }
 function showFSHint(){
-  if(document.getElementById('fs-hint'))return;
-  const d=document.createElement('div');d.id='fs-hint';
-  d.innerHTML='<div style="color:var(--gd);font-weight:700;font-size:13px;margin-bottom:10px">⛶ Mode plein écran</div>'
-    +'<strong>Mac :</strong> appuyez sur <kbd style="background:rgba(191,155,48,.2);padding:2px 6px;border-radius:3px">F</kbd> ou Cmd+Ctrl+F<br>'
-    +'<strong>iPhone/iPad :</strong> Partage → <strong>Sur l'écran d'accueil</strong>, puis ouvrez en plein écran<br>'
-    +'<strong>Android :</strong> Menu Chrome → Mode plein écran'
-    +'<br><button onclick="document.getElementById('fs-hint').remove()">Compris</button>';
+  if(document.getElementById("fs-hint"))return;
+  const d=document.createElement("div");d.id="fs-hint";
+  d.innerHTML=`
+    <div style="color:var(--gd);font-weight:700;font-size:13px;margin-bottom:10px">⛶ Mode plein \xe9cran</div>
+    <strong>Mac :</strong> touche <kbd style="background:rgba(191,155,48,.2);padding:2px 6px;border-radius:3px">F</kbd> ou Cmd+Ctrl+F<br>
+    <strong>iPhone/iPad :</strong> Partage → <strong>Sur l’\xe9cran d’accueil</strong>, puis ouvrir en plein \xe9cran<br>
+    <strong>Android :</strong> Menu Chrome → Mode plein \xe9cran
+    <br><button id="fs-hint-ok">Compris</button>`;
   document.body.appendChild(d);
-  setTimeout(()=>{const el=document.getElementById('fs-hint');if(el)el.remove();},7000);
+  document.getElementById("fs-hint-ok").onclick=()=>d.remove();
+  setTimeout(()=>{if(d.parentNode)d.remove();},7000);
 }
 function toggleP(){presOpen=!presOpen;document.getElementById('ppanel').classList.toggle('open',presOpen);document.getElementById('pbtn').textContent=presOpen?'✕ FERMER':'👁 PRÉSENTATEUR';hud.style.bottom=presOpen?'262px':'0';if(!presOpen)showHUD();}
 let tSec=0,tInt=null,tOn=false;
